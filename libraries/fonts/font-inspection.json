@@ -1,0 +1,368 @@
+{
+  "schema_version": 1,
+  "verified_on": "2026-09-11",
+  "method": "fontTools TTFont name/fvar/cmap/GSUB/GPOS; original unmodified downloaded TTF",
+  "samples": {
+    "english": "Tracefold Make every decision traceable. Turn research into decisions you can explain. Review the source, compare the evidence, and keep a clear trail from question to answer.",
+    "chinese": "迹序 让每次决策都有来处。把分散的信息整理成可追溯的依据。团队可以回看每一步推理，核对来源，继续推进下一次决策。已同步 查看依据 中文缺字回退演示 字体样张 英文品牌标题 中文品牌与界面 数字与代码 字重比较 来源与许可",
+    "digits": "0123456789 1,024 98.6% -12.50 +0.08 2026-09-11 09:41 ¥99 $129 €64",
+    "punctuation": "，。！？；：“”‘’（）【】《》、—… ·.,!?;:\"'()[]{}<> / \\ @ # & * _ + - =",
+    "code": "const trail = await tracefold.query({ source: \"notes\", limit: 20 }); if (score >= 0.95 && verified !== false) return trail; 0O 1Il {} [] => <= != ==="
+  },
+  "fonts": [
+    {
+      "id": "space-grotesk",
+      "path": "files/space-grotesk/SpaceGrotesk-VF.ttf",
+      "names": {
+        "1": [
+          "Space Grotesk Light"
+        ],
+        "2": [
+          "Regular"
+        ],
+        "5": [
+          "Version 2.000"
+        ],
+        "6": [
+          "SpaceGrotesk-Light"
+        ],
+        "16": [
+          "Space Grotesk"
+        ],
+        "17": [
+          "Light"
+        ]
+      },
+      "axes": [
+        {
+          "tag": "wght",
+          "minimum": 300.0,
+          "default": 300.0,
+          "maximum": 700.0
+        }
+      ],
+      "samples": {
+        "english": {
+          "unique_nonspace_codepoints": 28,
+          "missing": []
+        },
+        "chinese": {
+          "unique_nonspace_codepoints": 70,
+          "missing": [
+            "。",
+            "一",
+            "下",
+            "与",
+            "中",
+            "代",
+            "以",
+            "体",
+            "依",
+            "信",
+            "决",
+            "分",
+            "可",
+            "同",
+            "品",
+            "回",
+            "团",
+            "处",
+            "字",
+            "对",
+            "已",
+            "序",
+            "张",
+            "息",
+            "成",
+            "把",
+            "据",
+            "推",
+            "散",
+            "数",
+            "整",
+            "文",
+            "有",
+            "来",
+            "查",
+            "标",
+            "样",
+            "核",
+            "次",
+            "步",
+            "每",
+            "比",
+            "源",
+            "溯",
+            "演",
+            "牌",
+            "理",
+            "界",
+            "的",
+            "看",
+            "码",
+            "示",
+            "策",
+            "继",
+            "续",
+            "缺",
+            "英",
+            "让",
+            "许",
+            "较",
+            "进",
+            "迹",
+            "追",
+            "退",
+            "都",
+            "重",
+            "队",
+            "面",
+            "题",
+            "，"
+          ]
+        },
+        "digits": {
+          "unique_nonspace_codepoints": 19,
+          "missing": []
+        },
+        "punctuation": {
+          "unique_nonspace_codepoints": 46,
+          "missing": [
+            "、",
+            "。",
+            "《",
+            "》",
+            "【",
+            "】",
+            "！",
+            "（",
+            "）",
+            "，",
+            "：",
+            "；",
+            "？"
+          ]
+        },
+        "code": {
+          "unique_nonspace_codepoints": 41,
+          "missing": []
+        }
+      },
+      "ascii_printable_missing": []
+    },
+    {
+      "id": "noto-sans-sc",
+      "path": "files/noto-sans-sc/NotoSansSC-VF.ttf",
+      "names": {
+        "1": [
+          "Noto Sans SC Thin"
+        ],
+        "2": [
+          "Regular"
+        ],
+        "5": [
+          "Version 2.004-H2;hotconv 1.0.118;makeotfexe 2.5.65603"
+        ],
+        "6": [
+          "NotoSansSC-Thin"
+        ],
+        "16": [
+          "Noto Sans SC"
+        ],
+        "17": [
+          "Thin"
+        ]
+      },
+      "axes": [
+        {
+          "tag": "wght",
+          "minimum": 100.0,
+          "default": 100.0,
+          "maximum": 900.0
+        }
+      ],
+      "samples": {
+        "english": {
+          "unique_nonspace_codepoints": 28,
+          "missing": []
+        },
+        "chinese": {
+          "unique_nonspace_codepoints": 70,
+          "missing": []
+        },
+        "digits": {
+          "unique_nonspace_codepoints": 19,
+          "missing": []
+        },
+        "punctuation": {
+          "unique_nonspace_codepoints": 46,
+          "missing": []
+        },
+        "code": {
+          "unique_nonspace_codepoints": 41,
+          "missing": []
+        }
+      },
+      "ascii_printable_missing": []
+    },
+    {
+      "id": "jetbrains-mono",
+      "path": "files/jetbrains-mono/JetBrainsMono-VF.ttf",
+      "names": {
+        "1": [
+          "JetBrains Mono"
+        ],
+        "2": [
+          "Regular"
+        ],
+        "5": [
+          "Version 2.305"
+        ],
+        "6": [
+          "JetBrainsMono-Regular"
+        ],
+        "16": [],
+        "17": []
+      },
+      "axes": [
+        {
+          "tag": "wght",
+          "minimum": 100.0,
+          "default": 400.0,
+          "maximum": 800.0
+        }
+      ],
+      "samples": {
+        "english": {
+          "unique_nonspace_codepoints": 28,
+          "missing": []
+        },
+        "chinese": {
+          "unique_nonspace_codepoints": 70,
+          "missing": [
+            "。",
+            "一",
+            "下",
+            "与",
+            "中",
+            "代",
+            "以",
+            "体",
+            "依",
+            "信",
+            "决",
+            "分",
+            "可",
+            "同",
+            "品",
+            "回",
+            "团",
+            "处",
+            "字",
+            "对",
+            "已",
+            "序",
+            "张",
+            "息",
+            "成",
+            "把",
+            "据",
+            "推",
+            "散",
+            "数",
+            "整",
+            "文",
+            "有",
+            "来",
+            "查",
+            "标",
+            "样",
+            "核",
+            "次",
+            "步",
+            "每",
+            "比",
+            "源",
+            "溯",
+            "演",
+            "牌",
+            "理",
+            "界",
+            "的",
+            "看",
+            "码",
+            "示",
+            "策",
+            "继",
+            "续",
+            "缺",
+            "英",
+            "让",
+            "许",
+            "较",
+            "进",
+            "迹",
+            "追",
+            "退",
+            "都",
+            "重",
+            "队",
+            "面",
+            "题",
+            "，"
+          ]
+        },
+        "digits": {
+          "unique_nonspace_codepoints": 19,
+          "missing": []
+        },
+        "punctuation": {
+          "unique_nonspace_codepoints": 46,
+          "missing": [
+            "、",
+            "。",
+            "《",
+            "》",
+            "【",
+            "】",
+            "！",
+            "（",
+            "）",
+            "，",
+            "：",
+            "；",
+            "？"
+          ]
+        },
+        "code": {
+          "unique_nonspace_codepoints": 41,
+          "missing": []
+        }
+      },
+      "ascii_printable_missing": []
+    }
+  ],
+  "actual_specimen": {
+    "visible_text": "Tracefold / 迹序 · 字体与搭配样张 \n \n \n \n \n Brand Design / Type Library / Pairing 01 真实字体样张 · 虚构 AI / SaaS 品牌 \n \n English wordmark + Chinese companion \n Tracefold 迹序 \n 让每次决策都有来处。 \n 英文字标字重  600 正在加载本地字体文件… \n \n \n 01 / 标题、正文与字面关系 Space Grotesk × Noto Sans SC \n \n EN TITLE 500 / BODY 400 Make every decision traceable. Turn research into decisions you can explain. Review the source, compare the evidence, and keep a clear trail from question to answer. Aa 400 Aa 500 Aa 600 Aa 700 \n ZH TITLE 600 / BODY 400 从一条线索， 走向有依据的决策。 把分散的信息整理成可追溯的依据。团队可以回看每一步推理，核对来源，继续推进下一次决策。 迹序 400 迹序 500 迹序 600 \n \n \n 12 px 已同步 · Tracefold / 迹序 · 查看依据 · 2026-09-11 09:41 \n 14 px 迹序将每一次修改与来源对应，让团队继续推进下一步。 \n 16 px Tracefold 帮助团队从 1,024 条记录中找到清晰的决策依据。 \n \n \n \n 02 / 数字、标识与代码 JetBrains Mono \n NUMERALS / WEIGHT 500 0123456789 Evidence count 1,024 Confidence 98.6% Amount ¥99.00 Change −12.50 \n CODE / 13 px / WEIGHT 400 const trail = await tracefold.query({\n  source: \"notes\", limit: 20\n});\nif (score >= 0.95 && verified !== false)\n  return trail;\n\n0O  1Il  {}  []  =>  <=  !=  === 此样张关闭代码连字，便于逐字符核对。中文代码注释由 Noto Sans SC 接续。 \n \n \n 03 / 标点与中文接续 Coverage / Fallback \n ，。！？；：“”‘’（）【】《》、—… ¥99 / $129 / €64 · @tracefold · 0O 1Il · [] {} <> + − = \n MISSING FAMILY → LOCAL NOTO SANS SC 中文缺字回退演示：迹序，让每次决策都有来处。 上行首选家族故意不存在，后续指向本地 Noto Sans SC；拉丁家族中的中文也由该文件接续。 \n \n \n 04 / 字体来源与使用范围 Pinned files / OFL 1.1 \n Space Grotesk 英文品牌排版与展示标题。可变字重 300–700，样张字标使用 600。样张字形未作定制。 字体档案与许可 Noto Sans SC 中文标题、界面、正文与中文接续。可变字重 100–900，本样张使用 400–600。 字体档案与许可 JetBrains Mono 数字、参数和代码。可变字重 100–800，本样张使用 400–500。中文采用有比例接续。 字体档案与许可 \n \n 搭配样张验证中文、英文、数字与标点；不代表所有语言与印刷场景已验证。 字体库索引",
+    "nonspace_codepoint_count": 264,
+    "missing_from_final_local_fallback": [],
+    "minus_sign_in_jetbrains_mono": true,
+    "files": [
+      {
+        "path": "files/space-grotesk/SpaceGrotesk-VF.ttf",
+        "sha256_verified": true,
+        "true_type_signature_verified": true
+      },
+      {
+        "path": "files/noto-sans-sc/NotoSansSC-VF.ttf",
+        "sha256_verified": true,
+        "true_type_signature_verified": true
+      },
+      {
+        "path": "files/jetbrains-mono/JetBrainsMono-VF.ttf",
+        "sha256_verified": true,
+        "true_type_signature_verified": true
+      }
+    ]
+  }
+}

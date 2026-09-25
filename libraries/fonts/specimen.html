@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tracefold / 迹序 · 字体与搭配样张</title>
+<style>
+@font-face{font-family:"BD Space Grotesk";src:url("files/space-grotesk/SpaceGrotesk-VF.ttf") format("truetype");font-style:normal;font-weight:300 700;font-display:swap}
+@font-face{font-family:"BD Noto Sans SC";src:url("files/noto-sans-sc/NotoSansSC-VF.ttf") format("truetype");font-style:normal;font-weight:100 900;font-display:swap}
+@font-face{font-family:"BD JetBrains Mono";src:url("files/jetbrains-mono/JetBrainsMono-VF.ttf") format("truetype");font-style:normal;font-weight:100 800;font-display:swap}
+:root{--paper:#f4f3ed;--ink:#172d2a;--muted:#5a6860;--line:#c9d0c5;--accent:#bcf079;--dark:#173f35;--light:#f5f7ed;--latin:"BD Space Grotesk","BD Noto Sans SC",sans-serif;--zh:"BD Noto Sans SC",sans-serif;--mono:"BD JetBrains Mono","BD Noto Sans SC",monospace;--gutter:clamp(1.25rem,4vw,4rem);--space:clamp(2rem,5vw,4rem);color-scheme:light;accent-color:var(--dark);font-synthesis:none}
+*{box-sizing:border-box}
+html{scrollbar-gutter:stable;scrollbar-color:var(--muted) var(--paper);scrollbar-width:thin}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--zh);font-size:1rem;line-height:1.75}
+main{max-width:88rem;margin:auto;padding:0 var(--gutter)}
+h1,h2,h3,p{margin:0}h1,h2,h3{text-wrap:balance}p{text-wrap:pretty}
+a{color:inherit;text-underline-offset:.2em}a:focus-visible,input:focus-visible{outline:3px solid var(--dark);outline-offset:5px}
+header{display:flex;gap:1rem;justify-content:space-between;align-items:baseline;padding:1.65rem 0;border-bottom:1px solid var(--line);font-size:.75rem}
+.kicker{font-family:var(--mono);letter-spacing:.07em;text-transform:uppercase;font-size:.75rem}
+.subtle{color:var(--muted)}.hero{padding:var(--space) 0}
+.brand-line{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:2rem;row-gap:.5rem;margin:1.5rem 0 1rem}
+#brand{font:600 clamp(3.5rem,8.3vw,7.2rem)/1 var(--latin);letter-spacing:-.055em}
+.brand-zh{font:600 clamp(2.5rem,4.5vw,4rem)/1.25 var(--zh);letter-spacing:.015em}
+.tagline{font-size:clamp(1.125rem,2vw,1.5rem);font-weight:400;letter-spacing:.01em}
+.hero-meta{display:flex;flex-wrap:wrap;align-items:center;gap:1rem 3rem;justify-content:space-between;margin-top:2rem}
+.control{display:flex;align-items:center;gap:.8rem;font-size:.8125rem;flex-wrap:wrap}.control input{inline-size:clamp(7rem,16vw,12rem);min-block-size:2.75rem;margin:0}
+output{font-family:var(--mono);font-variant-numeric:tabular-nums;min-width:3ch}
+.status{font-family:var(--mono);font-size:.6875rem;line-height:1.6;max-width:32rem;color:var(--muted)}
+section.proof{padding:var(--space) 0;border-top:1px solid var(--line)}
+.section-head{display:flex;flex-wrap:wrap;gap:1rem;align-items:baseline;justify-content:space-between;margin-bottom:1.75rem}
+h2{font-weight:500;font-size:1.2rem;letter-spacing:-.015em}
+.columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(1.75rem,4vw,4rem)}
+.columns>*{min-width:0}.sample-label{display:block;font-family:var(--mono);font-size:.6875rem;color:var(--muted);margin-bottom:.75rem;letter-spacing:.035em}
+.latin-title{font:500 clamp(1.9rem,3vw,2.7rem)/1.12 var(--latin);letter-spacing:-.045em;max-width:18ch;margin-bottom:1.3rem}
+.latin-body{font:400 1.125rem/1.7 var(--latin);max-width:42ch}
+.zh-title{font:600 clamp(1.6rem,2.5vw,2.2rem)/1.4 var(--zh);letter-spacing:-.01em;max-width:14em;margin-bottom:1.2rem}
+.zh-body{font:400 1rem/1.9 var(--zh);max-width:30em}
+.sizes{display:grid;gap:1rem;margin-top:1.75rem}
+.size-row{display:grid;grid-template-columns:3.7rem minmax(0,1fr);gap:.75rem;align-items:baseline}.size-tag{font:400 .625rem/1.6 var(--mono);color:var(--muted)}
+.size-12{font-size:.75rem}.size-14{font-size:.875rem}.size-16{font-size:1rem}.weights{display:flex;flex-wrap:wrap;gap:1.25rem;margin-top:1.6rem;font:400 1.125rem/1.5 var(--latin)}.weights span{white-space:nowrap}
+.dark-proof{margin:0 calc(-1 * var(--gutter));padding:var(--space) var(--gutter);background:var(--dark);color:var(--light)}
+.dark-proof .sample-label,.dark-proof .subtle{color:var(--accent)}
+.mono-big{font:500 clamp(2rem,4vw,3.4rem)/1.2 var(--mono);letter-spacing:-.055em;margin:.5rem 0 1rem;font-variant-numeric:tabular-nums}
+.digit-grid{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:2rem;row-gap:.45rem;max-width:26rem;font:400 .875rem/1.75 var(--mono);font-variant-numeric:tabular-nums}
+.digit-grid span:nth-child(even){text-align:right}
+pre{font:400 .8125rem/1.9 var(--mono);white-space:pre-wrap;overflow-wrap:anywhere;margin:0;tab-size:2;font-variant-ligatures:none}
+.code-note{font-size:.75rem;margin-top:1rem;color:var(--accent)}
+.punctuation{font:400 clamp(1rem,1.7vw,1.35rem)/2 var(--zh);overflow-wrap:anywhere}
+.fallback-row{margin-top:1.2rem;padding-top:1.2rem;border-top:1px solid var(--line)}
+.fallback-test{font-family:"BD Missing Font",var(--zh)}
+.notes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2rem;font-size:.8125rem}.notes>div{min-width:0}.notes h3{font:500 .9375rem/1.4 var(--latin);margin-bottom:.6rem}.notes a{overflow-wrap:anywhere}
+footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;padding:1.5rem 0 2rem;border-top:1px solid var(--line);font-size:.6875rem;color:var(--muted)}
+@media(max-width:42rem){header{align-items:flex-start;flex-direction:column;gap:.4rem}.columns,.notes{grid-template-columns:minmax(0,1fr)}.brand-line{margin-top:1.3rem;gap:1rem}.hero-meta{margin-top:1.25rem;gap:.75rem}.section-head{gap:.35rem;margin-bottom:1.5rem}.latin-title{max-width:20ch}.notes{gap:1.5rem}.size-row{grid-template-columns:3rem minmax(0,1fr);gap:.5rem}.dark-proof .columns{gap:2rem}.kicker{font-size:.6875rem}}
+</style>
+</head>
+<body>
+<main>
+<header><span class="kicker">Brand Design / Type Library / Pairing 01</span><span class="subtle">真实字体样张 · 虚构 AI / SaaS 品牌</span></header>
+<section class="hero" aria-labelledby="brand">
+<div class="kicker subtle">English wordmark + Chinese companion</div>
+<div class="brand-line"><h1 id="brand" lang="en">Tracefold</h1><span class="brand-zh" id="brand-zh">迹序</span></div>
+<p class="tagline" id="tagline">让每次决策都有来处。</p>
+<div class="hero-meta"><label class="control" for="weight">英文字标字重 <input id="weight" type="range" min="300" max="700" step="50" value="600"><output for="weight" id="weight-value">600</output></label><p class="status" role="status" id="font-status">正在加载本地字体文件…</p></div>
+</section>
+<section class="proof" aria-labelledby="display-title">
+<div class="section-head"><h2 id="display-title">01 / 标题、正文与字面关系</h2><span class="kicker subtle">Space Grotesk × Noto Sans SC</span></div>
+<div class="columns">
+<div><span class="sample-label">EN TITLE 500 / BODY 400</span><h3 class="latin-title" lang="en">Make every decision traceable.</h3><p class="latin-body" id="latin-body" lang="en">Turn research into decisions you can explain. Review the source, compare the evidence, and keep a clear trail from question to answer.</p><div class="weights" lang="en"><span style="font-weight:400">Aa 400</span><span style="font-weight:500">Aa 500</span><span style="font-weight:600">Aa 600</span><span style="font-weight:700">Aa 700</span></div></div>
+<div><span class="sample-label">ZH TITLE 600 / BODY 400</span><h3 class="zh-title">从一条线索，<br>走向有依据的决策。</h3><p class="zh-body" id="zh-body">把分散的信息整理成可追溯的依据。团队可以回看每一步推理，核对来源，继续推进下一次决策。</p><div class="weights" style="font-family:var(--zh)"><span style="font-weight:400">迹序 400</span><span style="font-weight:500">迹序 500</span><span style="font-weight:600">迹序 600</span></div></div>
+</div>
+<div class="sizes">
+<div class="size-row"><span class="size-tag">12 px</span><p class="size-12" id="small-12">已同步 · Tracefold / 迹序 · 查看依据 · 2026-09-11 09:41</p></div>
+<div class="size-row"><span class="size-tag">14 px</span><p class="size-14">迹序将每一次修改与来源对应，让团队继续推进下一步。</p></div>
+<div class="size-row"><span class="size-tag">16 px</span><p class="size-16">Tracefold 帮助团队从 1,024 条记录中找到清晰的决策依据。</p></div>
+</div>
+</section>
+<section class="dark-proof" aria-labelledby="mono-title">
+<div class="section-head"><h2 id="mono-title">02 / 数字、标识与代码</h2><span class="kicker subtle">JetBrains Mono</span></div>
+<div class="columns"><div><span class="sample-label">NUMERALS / WEIGHT 500</span><p class="mono-big" id="mono-digits">0123456789</p><div class="digit-grid"><span>Evidence count</span><span>1,024</span><span>Confidence</span><span>98.6%</span><span>Amount</span><span>¥99.00</span><span>Change</span><span>−12.50</span></div></div>
+<div><span class="sample-label">CODE / 13 px / WEIGHT 400</span><pre id="code" lang="en">const trail = await tracefold.query({
+  source: "notes", limit: 20
+});
+if (score &gt;= 0.95 &amp;&amp; verified !== false)
+  return trail;
+
+0O  1Il  {}  []  =&gt;  &lt;=  !=  ===</pre><p class="code-note">此样张关闭代码连字，便于逐字符核对。中文代码注释由 Noto Sans SC 接续。</p></div></div>
+</section>
+<section class="proof" aria-labelledby="punct-title">
+<div class="section-head"><h2 id="punct-title">03 / 标点与中文接续</h2><span class="kicker subtle">Coverage / Fallback</span></div>
+<p class="punctuation" id="punctuation">，。！？；：“”‘’（）【】《》、—…<br>¥99 / $129 / €64 · @tracefold · 0O 1Il · [] {} &lt;&gt; + − =</p>
+<div class="fallback-row"><span class="sample-label">MISSING FAMILY → LOCAL NOTO SANS SC</span><p class="fallback-test" id="fallback-test">中文缺字回退演示：迹序，让每次决策都有来处。</p><p class="subtle size-12">上行首选家族故意不存在，后续指向本地 Noto Sans SC；拉丁家族中的中文也由该文件接续。</p></div>
+</section>
+<section class="proof" aria-labelledby="source-title">
+<div class="section-head"><h2 id="source-title">04 / 字体来源与使用范围</h2><span class="kicker subtle">Pinned files / OFL 1.1</span></div>
+<div class="notes"><div><h3>Space Grotesk</h3><p>英文品牌排版与展示标题。可变字重 300–700，样张字标使用 600。样张字形未作定制。</p><a href="profiles/space-grotesk.md">字体档案与许可</a></div><div><h3>Noto Sans SC</h3><p>中文标题、界面、正文与中文接续。可变字重 100–900，本样张使用 400–600。</p><a href="profiles/noto-sans-sc.md">字体档案与许可</a></div><div><h3>JetBrains Mono</h3><p>数字、参数和代码。可变字重 100–800，本样张使用 400–500。中文采用有比例接续。</p><a href="profiles/jetbrains-mono.md">字体档案与许可</a></div></div>
+</section>
+<footer><span>搭配样张验证中文、英文、数字与标点；不代表所有语言与印刷场景已验证。</span><a href="INDEX.md">字体库索引</a></footer>
+</main>
+<script>
+const weight=document.querySelector('#weight');
+weight.addEventListener('input',()=>{document.querySelector('#brand').style.fontWeight=weight.value;document.querySelector('#weight-value').value=weight.value});
+const fontRequests=[['BD Space Grotesk','600','Tracefold'],['BD Noto Sans SC','400','迹序让每次决策都有来处。'],['BD JetBrains Mono','400','0123456789 const trail = {}']];
+window.fontProofReady=Promise.all(fontRequests.map(([family,weight,text])=>document.fonts.load(`${weight} 24px "${family}"`,text))).then(async results=>{
+ await document.fonts.ready;
+ const records=fontRequests.map(([family,weight,text],i)=>({family,weight,text,loadedFaces:results[i].length,check:document.fonts.check(`${weight} 24px "${family}"`,text)}));
+ window.fontProofResults=records;
+ const loaded=records.every(r=>r.loadedFaces>0&&r.check);
+ document.querySelector('#font-status').textContent=loaded?'3 / 3 LOCAL FONT FILES LOADED':'字体加载失败：当前样张含系统替代，请检查文件路径。';
+ document.documentElement.dataset.fontsLoaded=String(loaded);
+ return records;
+}).catch(error=>{document.querySelector('#font-status').textContent='字体加载失败：'+error.message;document.documentElement.dataset.fontsLoaded='false';return []});
+</script>
+</body>
+</html>

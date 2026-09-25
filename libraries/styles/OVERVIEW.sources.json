@@ -1,0 +1,171 @@
+{
+  "purpose": "navigation overview; one existing sample per style, not new research samples",
+  "reviewed_on": "2026-09-23",
+  "members": [
+    {
+      "style_id": "semantic-tech-marks",
+      "sample_id": "T04",
+      "title": "科技语义与字母融合",
+      "source_label": "Alex Tass",
+      "file": "semantic-tech-marks/references/T04.png",
+      "sha256": "45b4c3a701aec75301b80ed083b30c58cd9fe5d713430c8dd22ad0c7f5a23ed7",
+      "sources_file": "semantic-tech-marks/sources.json",
+      "ai_enhanced": false
+    },
+    {
+      "style_id": "modern-product-wordmarks",
+      "sample_id": "P04",
+      "title": "现代产品字标",
+      "source_label": "Mihai Dolganiuc",
+      "file": "modern-product-wordmarks/references/P04.png",
+      "sha256": "5626a225b12d4b9b4e45d69ae820a5d076f9e9227ade9ea9ddef7875e9ff6610",
+      "sources_file": "modern-product-wordmarks/sources.json",
+      "ai_enhanced": false
+    },
+    {
+      "style_id": "folded-ribbon-paths",
+      "sample_id": "R05",
+      "title": "折带与连续路径",
+      "source_label": "Dmitry Lepisov",
+      "file": "folded-ribbon-paths/references/R05.png",
+      "sha256": "62f9646dcc5d0cb4afd2783e85142bf711bd063f556377350097a60a30240df2",
+      "sources_file": "folded-ribbon-paths/sources.json",
+      "ai_enhanced": false
+    },
+    {
+      "style_id": "geometric-letter-monograms",
+      "sample_id": "J09",
+      "title": "几何字母与组合",
+      "source_label": "Jeroen van Eerden",
+      "file": "geometric-letter-monograms/references/J09.png",
+      "sha256": "03253aec0b59c89fb4c14c24dbf4b3db1b90feb9c13c8425cbaa09aacb577b40",
+      "sources_file": "geometric-letter-monograms/sources.json",
+      "ai_enhanced": false
+    },
+    {
+      "style_id": "geometric-negative-space",
+      "sample_id": "N01",
+      "title": "几何负空间",
+      "source_label": "Logggos 收录",
+      "file": "geometric-negative-space/references/N01.png",
+      "sha256": "de8f00f7a6ef761e48a3a2e3855d08e32add401d49bea22ad53dcebf4c857bbf",
+      "sources_file": "geometric-negative-space/sources.json",
+      "ai_enhanced": false
+    },
+    {
+      "style_id": "monochrome-product-marks",
+      "sample_id": "C07",
+      "title": "黑白产品意象",
+      "source_label": "Digital Minimalist 收录",
+      "file": "monochrome-product-marks/references/catalog-notion.png",
+      "sha256": "9c8bfa82892912d1db477bd03641f7907f42481bb427afe8de1cf50ad9c3f321",
+      "sources_file": "monochrome-product-marks/sources.json",
+      "ai_enhanced": false
+    },
+    {
+      "style_id": "soft-dimensional-symbols",
+      "sample_id": "G08",
+      "title": "轻立体图形",
+      "source_label": "Kubai",
+      "file": "soft-dimensional-symbols/references/G08.png",
+      "sha256": "6b443155cbb5507f2da631c67f7ac3efdf0392108d0adf3bb89cb6b95edaad65",
+      "sources_file": "soft-dimensional-symbols/sources.json",
+      "ai_enhanced": false
+    },
+    {
+      "style_id": "holographic-chrome-relief",
+      "sample_id": "H06",
+      "title": "虹彩金属浮雕",
+      "source_label": "Martin Naumann · 个人再演绎",
+      "file": "holographic-chrome-relief/references/H06.png",
+      "sha256": "ee035d387d1c180b9a12df0b2ed77cf7614fdbf733312bc068bc8c43ffdd8e72",
+      "sources_file": "holographic-chrome-relief/sources.json",
+      "ai_enhanced": false
+    },
+    {
+      "style_id": "modernist-corporate-symbols",
+      "sample_id": "C05",
+      "title": "现代主义企业符号",
+      "source_label": "CGH 工作室",
+      "file": "modernist-corporate-symbols/references/C05.png",
+      "sha256": "d450de7948ee100813c09737dcf73f9c5728fce247d4a82d5a23a6ca724bf124",
+      "sources_file": "modernist-corporate-symbols/sources.json",
+      "ai_enhanced": false
+    },
+    {
+      "style_id": "handwritten-script-wordmarks",
+      "sample_id": "W01",
+      "title": "手写与连笔字标",
+      "source_label": "Logggos 收录",
+      "file": "handwritten-script-wordmarks/references/W01.png",
+      "sha256": "3c8ad8d98a917986734a08d27bfa1357f47c5a7aef2e5bf5af498e03d8f210f7",
+      "sources_file": "handwritten-script-wordmarks/sources.json",
+      "ai_enhanced": false
+    },
+    {
+      "style_id": "monoline-contour-marks",
+      "sample_id": "L01",
+      "title": "单线与轮廓图形",
+      "source_label": "Mila Katagarova",
+      "file": "monoline-contour-marks/references/L01.png",
+      "sha256": "df256ff1a7aaf615708ab85d8f4c96e3ee45096704d81d714fadf73aec69667a",
+      "sources_file": "monoline-contour-marks/sources.json",
+      "ai_enhanced": false
+    },
+    {
+      "style_id": "retro-skeuomorphic-marks",
+      "sample_id": "S01",
+      "title": "复古精密拟物",
+      "source_label": "Kubai · 本例为 AI 清晰化",
+      "file": "retro-skeuomorphic-marks/references/S01-enhanced.png",
+      "sha256": "aa8ee981186fbfbcf092b3aea1efb60194c4326a11701ec6226ea86a9d9fe00e",
+      "sources_file": "retro-skeuomorphic-marks/sources.json",
+      "ai_enhanced": true
+    },
+    {
+      "style_id": "retro-badge-emblems",
+      "sample_id": "B01",
+      "title": "复古徽章",
+      "source_label": "Aaron Draplin",
+      "file": "retro-badge-emblems/references/B01.png",
+      "sha256": "7a390afe451173c39529146ae48ecf0174063cb9bddef28238d1ffe5317eeaa7",
+      "sources_file": "retro-badge-emblems/sources.json",
+      "ai_enhanced": false
+    },
+    {
+      "style_id": "ornamental-folk-symbols",
+      "sample_id": "K06",
+      "title": "装饰与民艺符号",
+      "source_label": "Stefan Kanchev",
+      "file": "ornamental-folk-symbols/references/K06.png",
+      "sha256": "c479c058485f8432682e5d6a503147bfd52e1293456afc5bca5a094511304eb1",
+      "sources_file": "ornamental-folk-symbols/sources.json",
+      "ai_enhanced": false
+    },
+    {
+      "style_id": "illustrative-brand-mascots",
+      "sample_id": "V03",
+      "title": "插画品牌角色",
+      "source_label": "Von Glitschka",
+      "file": "illustrative-brand-mascots/references/V03.png",
+      "sha256": "4dec582b1712d78927c93965113271fa33447759169da43769c1b681111b7939",
+      "sources_file": "illustrative-brand-mascots/sources.json",
+      "ai_enhanced": false
+    },
+    {
+      "style_id": "capsule-eye-bot-avatars",
+      "sample_id": "S01",
+      "title": "胶囊眼 Bot 头像",
+      "source_label": "Grokbot Icon Studio",
+      "file": "capsule-eye-bot-avatars/references/pink.png",
+      "sha256": "1e2a26423a6d573c476245fc46a88e4a88db4f9d30a7fe173cb232ae5978ac39",
+      "sources_file": "capsule-eye-bot-avatars/sources.json",
+      "ai_enhanced": false
+    }
+  ],
+  "output_file": "OVERVIEW.png",
+  "width": 1328,
+  "height": 1600,
+  "sha256": "c4cd5a9222fd96ebb9f4ca3c4eb7db96ede63e5ff2e3a6c3112a03e2e90e3990",
+  "derivation": "16 styles; 4x4 navigation overview, proportional downscale to 300px; existing original display files retained; separate labels; no crop or redraw"
+}

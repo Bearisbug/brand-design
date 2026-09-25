@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "templates": [
+    {"id":"announcement","width":1200,"height":630,"file":"templates/announcement.html"},
+    {"id":"story","width":1080,"height":1350,"file":"templates/story.html"},
+    {"id":"cover","width":1600,"height":900,"file":"templates/cover.html"}
+  ]
+}

@@ -1,0 +1,440 @@
+{
+  "schema_version": 1,
+  "style_id": "geometric-letter-monograms",
+  "status": "provisional",
+  "reviewed_on": "2026-09-11",
+  "source_collection": {
+    "name": "Monograms and Symbols. · 作者 Behance 合集（2015）",
+    "page_url": "https://www.behance.net/gallery/23218943/Monograms-and-Symbols",
+    "role": "author portfolio"
+  },
+  "counting_unit": "10 个字母图形条目；同一条目的色版、网格与组合只计一次",
+  "assets": [
+    {
+      "id": "J-board",
+      "product": "Monograms and Symbols · Monograms board",
+      "page_url": "https://www.behance.net/gallery/23218943/Monograms-and-Symbols",
+      "asset_url": "https://mir-s3-cdn-cf.behance.net/project_modules/source/b1e40f23218943.5632b88331ac5.jpg",
+      "original_file": "references/J-board-original.jpg",
+      "original_content_type": "image/jpeg",
+      "original_sha256": "4737203fe97e76e0bfcdd0aa92d322f05ebf03aacd34b75f558a1c5e23a058a2",
+      "preview_file": "references/J-board-preview.png",
+      "preview_content_type": "image/png",
+      "preview_sha256": "249ec2fcd1311e1f717f5850b9dbb7ec56066d938e110a501afecec8f9af1932",
+      "width": 1920,
+      "height": 6533,
+      "preview_width": 1920,
+      "preview_height": 6533,
+      "dimension_kind": "raster pixels",
+      "source_kind": "remote_asset",
+      "original_role": "unaltered bytes served by the public asset URL; not a verified editable designer master",
+      "preview_derivation": "decode to PNG at original dimensions, flatten transparency onto white",
+      "obtained_via": "Node.js fetch of source URL present in public Behance page JSON",
+      "rights_status": "third-party research reference; redistribution permission not verified",
+      "designer": "Jeroen van Eerden"
+    }
+  ],
+  "samples": [
+    {
+      "id": "J01",
+      "product": "DF Monogram",
+      "main_group": "geometric-letter-monograms",
+      "detail_file": "references/J01.png",
+      "display_file": "references/J01.png",
+      "detail_width": 904,
+      "detail_height": 632,
+      "detail_sha256": "e51e16e50bc16897f6bf26f56a4163d6b4247f49a3ce02ec7eb77321e363ae02",
+      "detail_derivation": {
+        "input_file": "references/J-board-preview.png",
+        "source_region": {
+          "x": 52,
+          "y": 304,
+          "width": 856,
+          "height": 584
+        },
+        "padding_px": 24,
+        "padding_color": "srgb(243,244,246)",
+        "resize": false,
+        "trim_geometry": "856x584+52+304"
+      },
+      "project_status_and_credit": "作者署名 Jeroen van Eerden；名称沿用图板；客户采用状态未逐项核实。",
+      "clarity_review": {
+        "reviewed_on": "2026-09-11",
+        "purpose": "轮廓、字母结构、角色表情与构图风格研究",
+        "decision": "retain_clear_source",
+        "original_assessment": "已查看完整作者图板和各条目裁切；开口、共笔与名称可辨，F 为透视应用图",
+        "ai_enhanced": false,
+        "review_scope": "逐例查看来源/主体裁切与最终总览；检查全部50例的对应关系，未执行新品牌生成",
+        "limitations": "原字体、精确网格与客户采用状态未逐项核实；不从色版和网格推定为不同项目。"
+      },
+      "asset_id": "J-board",
+      "count_unit": "named_mark",
+      "observation": "D 与 F 由圆头笔画共享竖向骨架，右向横画伸出轮廓。",
+      "transfer_suggestion": "先安排主竖干和字腔，再让次字母通过短横画出现。"
+    },
+    {
+      "id": "J02",
+      "product": "S Monogram",
+      "main_group": "geometric-letter-monograms",
+      "detail_file": "references/J02.png",
+      "display_file": "references/J02.png",
+      "detail_width": 904,
+      "detail_height": 632,
+      "detail_sha256": "3c0ff7b42080834fcce2130db4b4775534fda0852e4a10b419b7843d38f1e46e",
+      "detail_derivation": {
+        "input_file": "references/J-board-preview.png",
+        "source_region": {
+          "x": 996,
+          "y": 304,
+          "width": 856,
+          "height": 584
+        },
+        "padding_px": 24,
+        "padding_color": "srgb(244,245,247)",
+        "resize": false,
+        "trim_geometry": "856x584+996+304"
+      },
+      "project_status_and_credit": "作者署名 Jeroen van Eerden；名称沿用图板；客户采用状态未逐项核实。",
+      "clarity_review": {
+        "reviewed_on": "2026-09-11",
+        "purpose": "轮廓、字母结构、角色表情与构图风格研究",
+        "decision": "retain_clear_source",
+        "original_assessment": "已查看完整作者图板和各条目裁切；开口、共笔与名称可辨，F 为透视应用图",
+        "ai_enhanced": false,
+        "review_scope": "逐例查看来源/主体裁切与最终总览；检查全部50例的对应关系，未执行新品牌生成",
+        "limitations": "原字体、精确网格与客户采用状态未逐项核实；不从色版和网格推定为不同项目。"
+      },
+      "asset_id": "J-board",
+      "count_unit": "named_mark",
+      "observation": "S 以成对平行曲线盘绕，上下开口错位。",
+      "transfer_suggestion": "控制开口与双轨间距；不要把盘绕关系直接搬到不兼容字母。"
+    },
+    {
+      "id": "J03",
+      "product": "D Monogram",
+      "main_group": "geometric-letter-monograms",
+      "detail_file": "references/J03.png",
+      "display_file": "references/J03.png",
+      "detail_width": 904,
+      "detail_height": 632,
+      "detail_sha256": "612b25272c38806916cc80ec7f0282645e3bbd399feaa203b13f8cb7a238cd17",
+      "detail_derivation": {
+        "input_file": "references/J-board-preview.png",
+        "source_region": {
+          "x": 52,
+          "y": 2080,
+          "width": 856,
+          "height": 584
+        },
+        "padding_px": 24,
+        "padding_color": "srgb(247,248,250)",
+        "resize": false,
+        "trim_geometry": "856x584+52+2080"
+      },
+      "project_status_and_credit": "作者署名 Jeroen van Eerden；名称沿用图板；客户采用状态未逐项核实。",
+      "clarity_review": {
+        "reviewed_on": "2026-09-11",
+        "purpose": "轮廓、字母结构、角色表情与构图风格研究",
+        "decision": "retain_clear_source",
+        "original_assessment": "已查看完整作者图板和各条目裁切；开口、共笔与名称可辨，F 为透视应用图",
+        "ai_enhanced": false,
+        "review_scope": "逐例查看来源/主体裁切与最终总览；检查全部50例的对应关系，未执行新品牌生成",
+        "limitations": "原字体、精确网格与客户采用状态未逐项核实；不从色版和网格推定为不同项目。"
+      },
+      "asset_id": "J-board",
+      "count_unit": "named_mark",
+      "observation": "圆弧 D 外框内还有一条直立结构，图板并列显示网格与色版。",
+      "transfer_suggestion": "先解决外框与内部竖画的关系，再微调曲线和空隙。"
+    },
+    {
+      "id": "J04",
+      "product": "Unii",
+      "main_group": "geometric-letter-monograms",
+      "detail_file": "references/J04.png",
+      "display_file": "references/J04.png",
+      "detail_width": 904,
+      "detail_height": 632,
+      "detail_sha256": "0191ddd38c0555e9b49f8eaee87f0e3cf219790423cc1479c89228807ca497c2",
+      "detail_derivation": {
+        "input_file": "references/J-board-preview.png",
+        "source_region": {
+          "x": 996,
+          "y": 2080,
+          "width": 856,
+          "height": 584
+        },
+        "padding_px": 24,
+        "padding_color": "srgb(242,217,210)",
+        "resize": false,
+        "trim_geometry": "856x584+996+2080"
+      },
+      "project_status_and_credit": "作者署名 Jeroen van Eerden；名称沿用图板；客户采用状态未逐项核实。",
+      "clarity_review": {
+        "reviewed_on": "2026-09-11",
+        "purpose": "轮廓、字母结构、角色表情与构图风格研究",
+        "decision": "retain_clear_source",
+        "original_assessment": "已查看完整作者图板和各条目裁切；开口、共笔与名称可辨，F 为透视应用图",
+        "ai_enhanced": false,
+        "review_scope": "逐例查看来源/主体裁切与最终总览；检查全部50例的对应关系，未执行新品牌生成",
+        "limitations": "原字体、精确网格与客户采用状态未逐项核实；不从色版和网格推定为不同项目。"
+      },
+      "asset_id": "J-board",
+      "count_unit": "named_mark",
+      "observation": "U 形路径上方有两个圆点，组合中保留拟人化阅读。",
+      "transfer_suggestion": "只有字母和品牌语义支持时加入圆点，避免无依据附加笑脸。"
+    },
+    {
+      "id": "J05",
+      "product": "T Monogram",
+      "main_group": "geometric-letter-monograms",
+      "detail_file": "references/J05.png",
+      "display_file": "references/J05.png",
+      "detail_width": 904,
+      "detail_height": 632,
+      "detail_sha256": "2d9a0b8e6e0f86c2aa80b818207050cf5a89dc06903863be789a6ea7b839c0b1",
+      "detail_derivation": {
+        "input_file": "references/J-board-preview.png",
+        "source_region": {
+          "x": 996,
+          "y": 2980,
+          "width": 856,
+          "height": 584
+        },
+        "padding_px": 24,
+        "padding_color": "srgb(221,237,224)",
+        "resize": false,
+        "trim_geometry": "856x584+996+2980"
+      },
+      "project_status_and_credit": "作者署名 Jeroen van Eerden；名称沿用图板；客户采用状态未逐项核实。",
+      "clarity_review": {
+        "reviewed_on": "2026-09-11",
+        "purpose": "轮廓、字母结构、角色表情与构图风格研究",
+        "decision": "retain_clear_source",
+        "original_assessment": "已查看完整作者图板和各条目裁切；开口、共笔与名称可辨，F 为透视应用图",
+        "ai_enhanced": false,
+        "review_scope": "逐例查看来源/主体裁切与最终总览；检查全部50例的对应关系，未执行新品牌生成",
+        "limitations": "原字体、精确网格与客户采用状态未逐项核实；不从色版和网格推定为不同项目。"
+      },
+      "asset_id": "J-board",
+      "count_unit": "named_mark",
+      "observation": "T 由分离的横端和竖干形成，中部间隙清楚。",
+      "transfer_suggestion": "通过短横端、折角和间隙组织对称关系，检查缩小可读性。"
+    },
+    {
+      "id": "J06",
+      "product": "U Monogram",
+      "main_group": "geometric-letter-monograms",
+      "detail_file": "references/J06.png",
+      "display_file": "references/J06.png",
+      "detail_width": 904,
+      "detail_height": 632,
+      "detail_sha256": "68cb257a34986fe16bc92fd8eaf67031a1c0c0648d0423e2cd698df5c4aaf457",
+      "detail_derivation": {
+        "input_file": "references/J-board-preview.png",
+        "source_region": {
+          "x": 996,
+          "y": 3900,
+          "width": 856,
+          "height": 584
+        },
+        "padding_px": 24,
+        "padding_color": "srgb(233,243,244)",
+        "resize": false,
+        "trim_geometry": "856x584+996+3900"
+      },
+      "project_status_and_credit": "作者署名 Jeroen van Eerden；名称沿用图板；客户采用状态未逐项核实。",
+      "clarity_review": {
+        "reviewed_on": "2026-09-11",
+        "purpose": "轮廓、字母结构、角色表情与构图风格研究",
+        "decision": "retain_clear_source",
+        "original_assessment": "已查看完整作者图板和各条目裁切；开口、共笔与名称可辨，F 为透视应用图",
+        "ai_enhanced": false,
+        "review_scope": "逐例查看来源/主体裁切与最终总览；检查全部50例的对应关系，未执行新品牌生成",
+        "limitations": "原字体、精确网格与客户采用状态未逐项核实；不从色版和网格推定为不同项目。"
+      },
+      "asset_id": "J-board",
+      "count_unit": "named_mark",
+      "observation": "嵌套的 U 形双轨形成圆底与开放顶部。",
+      "transfer_suggestion": "让内外 U 的间距连续，避免底部压扁或交汇。"
+    },
+    {
+      "id": "J07",
+      "product": "R Monogram",
+      "main_group": "geometric-letter-monograms",
+      "detail_file": "references/J07.png",
+      "display_file": "references/J07.png",
+      "detail_width": 904,
+      "detail_height": 632,
+      "detail_sha256": "001eacaa6057db232811fbe4ac6c7e8220fa5a35c5833d3d7c9921bd70e40a3a",
+      "detail_derivation": {
+        "input_file": "references/J-board-preview.png",
+        "source_region": {
+          "x": 52,
+          "y": 4800,
+          "width": 856,
+          "height": 584
+        },
+        "padding_px": 24,
+        "padding_color": "srgb(249,250,252)",
+        "resize": false,
+        "trim_geometry": "856x584+52+4800"
+      },
+      "project_status_and_credit": "作者署名 Jeroen van Eerden；名称沿用图板；客户采用状态未逐项核实。",
+      "clarity_review": {
+        "reviewed_on": "2026-09-11",
+        "purpose": "轮廓、字母结构、角色表情与构图风格研究",
+        "decision": "retain_clear_source",
+        "original_assessment": "已查看完整作者图板和各条目裁切；开口、共笔与名称可辨，F 为透视应用图",
+        "ai_enhanced": false,
+        "review_scope": "逐例查看来源/主体裁切与最终总览；检查全部50例的对应关系，未执行新品牌生成",
+        "limitations": "原字体、精确网格与客户采用状态未逐项核实；不从色版和网格推定为不同项目。"
+      },
+      "asset_id": "J-board",
+      "count_unit": "named_mark",
+      "observation": "环形上部与斜腿结合，图板展示网格和四种颜色。",
+      "transfer_suggestion": "先检查 R 的环与腿关系，色版不重复算新的构思。"
+    },
+    {
+      "id": "J08",
+      "product": "F Monogram — fysiosportief",
+      "main_group": "geometric-letter-monograms",
+      "detail_file": "references/J08.png",
+      "display_file": "references/J08.png",
+      "detail_width": 904,
+      "detail_height": 632,
+      "detail_sha256": "392894a873332aa04ea65c965639d23d6a42407db2ba464d0a1f7648eb69345f",
+      "detail_derivation": {
+        "input_file": "references/J-board-preview.png",
+        "source_region": {
+          "x": 996,
+          "y": 4800,
+          "width": 856,
+          "height": 584
+        },
+        "padding_px": 24,
+        "padding_color": "srgb(234,237,242)",
+        "resize": false,
+        "trim_geometry": "856x584+996+4800"
+      },
+      "project_status_and_credit": "作者署名 Jeroen van Eerden；名称沿用图板；客户采用状态未逐项核实。",
+      "clarity_review": {
+        "reviewed_on": "2026-09-11",
+        "purpose": "轮廓、字母结构、角色表情与构图风格研究",
+        "decision": "retain_clear_source",
+        "original_assessment": "已查看完整作者图板和各条目裁切；开口、共笔与名称可辨，F 为透视应用图",
+        "ai_enhanced": false,
+        "review_scope": "逐例查看来源/主体裁切与最终总览；检查全部50例的对应关系，未执行新品牌生成",
+        "limitations": "原字体、精确网格与客户采用状态未逐项核实；不从色版和网格推定为不同项目。"
+      },
+      "asset_id": "J-board",
+      "count_unit": "named_mark",
+      "observation": "斜向 F 与橙色短横构成运动感，展示于门牌组合中。",
+      "transfer_suggestion": "倾斜来自动作语义时再使用；正式形状需另外提供平视母版。"
+    },
+    {
+      "id": "J09",
+      "product": "AP Monogram",
+      "main_group": "geometric-letter-monograms",
+      "detail_file": "references/J09.png",
+      "display_file": "references/J09.png",
+      "detail_width": 904,
+      "detail_height": 632,
+      "detail_sha256": "03253aec0b59c89fb4c14c24dbf4b3db1b90feb9c13c8425cbaa09aacb577b40",
+      "detail_derivation": {
+        "input_file": "references/J-board-preview.png",
+        "source_region": {
+          "x": 52,
+          "y": 5700,
+          "width": 856,
+          "height": 584
+        },
+        "padding_px": 24,
+        "padding_color": "srgb(224,197,120)",
+        "resize": false,
+        "trim_geometry": "856x584+52+5700"
+      },
+      "project_status_and_credit": "作者署名 Jeroen van Eerden；名称沿用图板；客户采用状态未逐项核实。",
+      "clarity_review": {
+        "reviewed_on": "2026-09-11",
+        "purpose": "轮廓、字母结构、角色表情与构图风格研究",
+        "decision": "retain_clear_source",
+        "original_assessment": "已查看完整作者图板和各条目裁切；开口、共笔与名称可辨，F 为透视应用图",
+        "ai_enhanced": false,
+        "review_scope": "逐例查看来源/主体裁切与最终总览；检查全部50例的对应关系，未执行新品牌生成",
+        "limitations": "原字体、精确网格与客户采用状态未逐项核实；不从色版和网格推定为不同项目。"
+      },
+      "asset_id": "J-board",
+      "count_unit": "named_mark",
+      "observation": "圆弧交汇连接 A 与 P 的主要笔画，内部形成小字腔。",
+      "transfer_suggestion": "明确两字母主次，优先保持字腔与连接处的分离。"
+    },
+    {
+      "id": "J10",
+      "product": "PR Monogram",
+      "main_group": "geometric-letter-monograms",
+      "detail_file": "references/J10.png",
+      "display_file": "references/J10.png",
+      "detail_width": 904,
+      "detail_height": 632,
+      "detail_sha256": "72c8a087a5daaed6899800604f58a3511353740a2963223ddec9cf9f254d84d1",
+      "detail_derivation": {
+        "input_file": "references/J-board-preview.png",
+        "source_region": {
+          "x": 996,
+          "y": 5700,
+          "width": 856,
+          "height": 584
+        },
+        "padding_px": 24,
+        "padding_color": "srgb(236,196,197)",
+        "resize": false,
+        "trim_geometry": "856x584+996+5700"
+      },
+      "project_status_and_credit": "作者署名 Jeroen van Eerden；名称沿用图板；客户采用状态未逐项核实。",
+      "clarity_review": {
+        "reviewed_on": "2026-09-11",
+        "purpose": "轮廓、字母结构、角色表情与构图风格研究",
+        "decision": "retain_clear_source",
+        "original_assessment": "已查看完整作者图板和各条目裁切；开口、共笔与名称可辨，F 为透视应用图",
+        "ai_enhanced": false,
+        "review_scope": "逐例查看来源/主体裁切与最终总览；检查全部50例的对应关系，未执行新品牌生成",
+        "limitations": "原字体、精确网格与客户采用状态未逐项核实；不从色版和网格推定为不同项目。"
+      },
+      "asset_id": "J-board",
+      "count_unit": "named_mark",
+      "observation": "上部双层环与下方分叉腿连成轻线性结构。",
+      "transfer_suggestion": "将环与腿的接点作为细化重点，避免读成不相关数字。"
+    }
+  ],
+  "reference_groups": [
+    {
+      "id": "geometric-letter-monograms",
+      "name": "几何字母与组合",
+      "count": 10,
+      "overview_file": "references/overview.png",
+      "width": 1144,
+      "height": 2130,
+      "overview_sha256": "5cc22055f2cecf0a9d551d266ef876f7610d8c3a1496bdfdaf4e04bdafa44f34",
+      "derivation": "2 columns × 5 rows from display_file; downscale only, independent labels, no new samples",
+      "members": [
+        "J01",
+        "J02",
+        "J03",
+        "J04",
+        "J05",
+        "J06",
+        "J07",
+        "J08",
+        "J09",
+        "J10"
+      ],
+      "count_unit": "named_mark"
+    }
+  ],
+  "validation": {
+    "source_and_manifest": "PASS: hashes, dimensions, exact crop pixels, source references, group membership and local links",
+    "visual_reference": "PASS: source images, per-subject crops and final overview visually reviewed for the stated research use",
+    "new_brand_generation": "not executed",
+    "prompt_transfer": "not executed"
+  }
+}

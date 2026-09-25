@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "verified_on": "2026-09-11",
+  "method": "agent-browser with local Microsoft Edge executable; file URL; FontFace loading, canvas pixel fingerprints, text Range and container overflow probes, keyboard interaction, screenshots",
+  "browser_executable": "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge",
+  "faces": [
+    {
+      "family": "BD Space Grotesk",
+      "status": "loaded",
+      "weight": "300 700"
+    },
+    {
+      "family": "BD Noto Sans SC",
+      "status": "loaded",
+      "weight": "100 900"
+    },
+    {
+      "family": "BD JetBrains Mono",
+      "status": "loaded",
+      "weight": "100 800"
+    }
+  ],
+  "fingerprints": {
+    "fallback": {
+      "pixelDigest": "51ceddc0",
+      "width": 416
+    },
+    "latinChineseFallback": {
+      "pixelDigest": "51ceddc0",
+      "width": 416
+    },
+    "mono": {
+      "pixelDigest": "785f0b2b",
+      "width": 326.39996337890625
+    },
+    "monoSystem": {
+      "pixelDigest": "5ac604d8",
+      "width": 327.515625
+    },
+    "noto": {
+      "pixelDigest": "51ceddc0",
+      "width": 416
+    },
+    "notoSystem": {
+      "pixelDigest": "a525d1ca",
+      "width": 419.7439270019531
+    },
+    "space": {
+      "pixelDigest": "dcd7421a",
+      "width": 145.5471649169922
+    },
+    "space300": {
+      "pixelDigest": "566aa78e",
+      "width": 144.5439453125
+    },
+    "space700": {
+      "pixelDigest": "362e9c01",
+      "width": 145.75997924804688
+    },
+    "spaceSystem": {
+      "pixelDigest": "6cc67356",
+      "width": 151.2318878173828
+    }
+  },
+  "fontProof": [
+    {
+      "check": true,
+      "family": "BD Space Grotesk",
+      "loadedFaces": 1,
+      "text": "Tracefold",
+      "weight": "600"
+    },
+    {
+      "check": true,
+      "family": "BD Noto Sans SC",
+      "loadedFaces": 1,
+      "text": "迹序让每次决策都有来处。",
+      "weight": "400"
+    },
+    {
+      "check": true,
+      "family": "BD JetBrains Mono",
+      "loadedFaces": 1,
+      "text": "0123456789 const trail = {}",
+      "weight": "400"
+    }
+  ],
+  "title": "Tracefold / 迹序 · 字体与搭配样张",
+  "url": "file:///Users/bug/Documents/Projects/Harness/skills/brand-design/libraries/fonts/specimen.html",
+  "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36 Edg/152.0.0.0",
+  "desktop": {
+    "clientWidth": 1440,
+    "codeSize": "13px",
+    "fontSynthesis": "none",
+    "gutterStyle": "stable",
+    "innerHeight": 1000,
+    "innerWidth": 1440,
+    "issues": [],
+    "scrollWidth": 1429,
+    "scrollbarWidth": "thin",
+    "smallSize": "12px"
+  },
+  "mobile": {
+    "clientWidth": 390,
+    "codeSize": "13px",
+    "fontSynthesis": "none",
+    "gutterStyle": "stable",
+    "innerHeight": 844,
+    "innerWidth": 390,
+    "issues": [],
+    "scrollWidth": 379,
+    "scrollbarWidth": "thin",
+    "smallSize": "12px"
+  },
+  "interaction": {
+    "computedWeight": "550",
+    "display": "550",
+    "focused": "weight",
+    "value": "550"
+  },
+  "errors": {
+    "errors": []
+  },
+  "console": {
+    "messages": [],
+    "origin": "file:///Users/bug/Documents/Projects/Harness/skills/brand-design/libraries/fonts/specimen.html"
+  },
+  "assertions": {
+    "threeLoadedFonts": true,
+    "distinctFromSystem": true,
+    "missingFamilyUsesNoto": true,
+    "latinChineseUsesNoto": true,
+    "variableWeightChangesRaster": true,
+    "keyboardWeightChange": true,
+    "desktopFits": true,
+    "mobileFits": true
+  },
+  "screenshots": [
+    "shots/specimen-desktop.png",
+    "shots/specimen-mobile.png"
+  ],
+  "visual_review": {
+    "status": "pass",
+    "reviewed_screenshots": [
+      "shots/specimen-desktop.png",
+      "shots/specimen-mobile.png"
+    ],
+    "observations": [
+      "桌面英文与中文品牌名称正确，字标、标题、正文层级清晰。",
+      "移动视口的标题、正文、数字和代码保持可读，代码换行未裁切字符。",
+      "深底数字与代码、浅底中文 12 / 14 / 16 CSS px 样行均完成目检。",
+      "字重控件键盘焦点可见，600 → 550 → 600 的状态与实际字重一致。"
+    ],
+    "limitations": [
+      "这里只评价所列截图和文本，未验证印刷和其他平台。"
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "shots/specimen-desktop.png",
+      "sha256": "5570b7680f7a5cc563766c76649b85499d3dc4d0e4b9de92dcd183a2386cadcd"
+    },
+    {
+      "path": "shots/specimen-mobile.png",
+      "sha256": "cba75f57724f6e42461462a8e223fb27045a86af0dbdfd6a148ffde21a731258"
+    }
+  ]
+}

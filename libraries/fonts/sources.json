@@ -1,0 +1,319 @@
+{
+  "schema_version": 1,
+  "verified_on": "2026-09-11",
+  "path_base": ".",
+  "fonts": [
+    {
+      "id": "space-grotesk",
+      "family": "Space Grotesk",
+      "official_url": "https://github.com/floriankarsten/space-grotesk",
+      "upstream_commit": "00a38a53f92aef923b9353f40128e8f4552ddae4",
+      "license_id": "OFL-1.1",
+      "license_file": "licenses/space-grotesk-OFL.txt",
+      "license_source_url": "https://raw.githubusercontent.com/google/fonts/00a38a53f92aef923b9353f40128e8f4552ddae4/ofl/spacegrotesk/OFL.txt",
+      "license_sha256": "564ce565c371c5e5bbf286006565a7c9aa55a9f56e7ca58d56e05d649dd61a72",
+      "files": [
+        {
+          "path": "files/space-grotesk/SpaceGrotesk-VF.ttf",
+          "format": "ttf",
+          "source_url": "https://raw.githubusercontent.com/google/fonts/00a38a53f92aef923b9353f40128e8f4552ddae4/ofl/spacegrotesk/SpaceGrotesk%5Bwght%5D.ttf",
+          "bytes": 136676,
+          "sha256": "acad6de1fc93436f5c0f1f4137751ef04f1aea3063e7036535970ffcfbd79f72",
+          "name_version": "Version 2.000",
+          "postscript_name": "SpaceGrotesk-Light",
+          "axes": [
+            {
+              "tag": "wght",
+              "minimum": 300,
+              "default": 300,
+              "maximum": 700
+            }
+          ],
+          "glyph_count": 1001,
+          "unicode_cmap_count": 735,
+          "metrics": {
+            "units_per_em": 1000,
+            "ascender": 984,
+            "descender": -292,
+            "line_gap": 0,
+            "x_height": 486,
+            "cap_height": 700
+          },
+          "features": {
+            "GSUB": [
+              "aalt",
+              "case",
+              "ccmp",
+              "dnom",
+              "frac",
+              "liga",
+              "lnum",
+              "locl",
+              "numr",
+              "onum",
+              "ordn",
+              "pnum",
+              "salt",
+              "sinf",
+              "ss01",
+              "ss02",
+              "ss03",
+              "ss04",
+              "ss05",
+              "subs",
+              "sups",
+              "tnum",
+              "zero"
+            ],
+            "GPOS": [
+              "kern",
+              "mark",
+              "mkmk"
+            ]
+          }
+        }
+      ],
+      "status": "validated",
+      "upstream_repository": "https://github.com/google/fonts",
+      "validation_scope": {
+        "specimen": "specimen.html",
+        "inspection": "font-inspection.json",
+        "browser": "browser-verification.json",
+        "roles": [
+          "english-wordmark-typesetting",
+          "english-title",
+          "english-body"
+        ],
+        "weights_tested": [
+          300,
+          400,
+          500,
+          550,
+          600,
+          700
+        ],
+        "languages_verified": [
+          "en"
+        ],
+        "limitations": [
+          "仅验证样张实际文案与本机 Edge 152；不代表全部语言或全部字轴连续值",
+          "未验证印刷、生产网络性能或其他操作系统"
+        ]
+      }
+    },
+    {
+      "id": "noto-sans-sc",
+      "family": "Noto Sans SC",
+      "official_url": "https://github.com/google/fonts/tree/main/ofl/notosanssc",
+      "upstream_commit": "a85815a42757630ce188fdad368c2dfc444d4773",
+      "license_id": "OFL-1.1",
+      "license_file": "licenses/noto-sans-sc-OFL.txt",
+      "license_source_url": "https://raw.githubusercontent.com/google/fonts/a85815a42757630ce188fdad368c2dfc444d4773/ofl/notosanssc/OFL.txt",
+      "license_sha256": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9",
+      "files": [
+        {
+          "path": "files/noto-sans-sc/NotoSansSC-VF.ttf",
+          "format": "ttf",
+          "source_url": "https://raw.githubusercontent.com/google/fonts/a85815a42757630ce188fdad368c2dfc444d4773/ofl/notosanssc/NotoSansSC%5Bwght%5D.ttf",
+          "bytes": 17772300,
+          "sha256": "a3041811a78c361b1de50f953c805e0244951c21c5bd412f7232ef0d899af0da",
+          "name_version": "Version 2.004-H2;hotconv 1.0.118;makeotfexe 2.5.65603",
+          "postscript_name": "NotoSansSC-Thin",
+          "axes": [
+            {
+              "tag": "wght",
+              "minimum": 100,
+              "default": 100,
+              "maximum": 900
+            }
+          ],
+          "glyph_count": 31036,
+          "unicode_cmap_count": 30890,
+          "metrics": {
+            "units_per_em": 1000,
+            "ascender": 1160,
+            "descender": -288,
+            "line_gap": 0,
+            "x_height": 543,
+            "cap_height": 733
+          },
+          "features": {
+            "GSUB": [
+              "aalt",
+              "ccmp",
+              "dlig",
+              "fwid",
+              "hist",
+              "hwid",
+              "liga",
+              "locl",
+              "pwid",
+              "ruby",
+              "vert",
+              "vrt2"
+            ],
+            "GPOS": [
+              "halt",
+              "kern",
+              "mark",
+              "palt",
+              "vert",
+              "vhal",
+              "vkrn",
+              "vpal"
+            ]
+          }
+        }
+      ],
+      "status": "validated",
+      "upstream_repository": "https://github.com/google/fonts",
+      "validation_scope": {
+        "specimen": "specimen.html",
+        "inspection": "font-inspection.json",
+        "browser": "browser-verification.json",
+        "roles": [
+          "simplified-chinese-title",
+          "simplified-chinese-body",
+          "ui",
+          "chinese-fallback"
+        ],
+        "weights_tested": [
+          400,
+          500,
+          600
+        ],
+        "languages_verified": [
+          "en",
+          "zh-Hans"
+        ],
+        "limitations": [
+          "仅验证样张实际文案与本机 Edge 152；不代表全部语言或全部字轴连续值",
+          "未验证印刷、生产网络性能或其他操作系统"
+        ]
+      }
+    },
+    {
+      "id": "jetbrains-mono",
+      "family": "JetBrains Mono",
+      "official_url": "https://github.com/JetBrains/JetBrainsMono",
+      "upstream_commit": "19371302b95d218af43299bce79ddbddd0bc364d",
+      "license_id": "OFL-1.1",
+      "license_file": "licenses/jetbrains-mono-OFL.txt",
+      "license_source_url": "https://raw.githubusercontent.com/JetBrains/JetBrainsMono/19371302b95d218af43299bce79ddbddd0bc364d/OFL.txt",
+      "license_sha256": "a76abf002c49097d146e86740a3105a5d00450b1592e820a1109a8c5680cd697",
+      "files": [
+        {
+          "path": "files/jetbrains-mono/JetBrainsMono-VF.ttf",
+          "format": "ttf",
+          "source_url": "https://raw.githubusercontent.com/JetBrains/JetBrainsMono/19371302b95d218af43299bce79ddbddd0bc364d/fonts/variable/JetBrainsMono%5Bwght%5D.ttf",
+          "bytes": 300144,
+          "sha256": "3cfafa86e28b87184d592fef82846e8c10cb48653c62efcda34f082da225ec34",
+          "name_version": "Version 2.305",
+          "postscript_name": "JetBrainsMono-Regular",
+          "axes": [
+            {
+              "tag": "wght",
+              "minimum": 100,
+              "default": 400,
+              "maximum": 800
+            }
+          ],
+          "glyph_count": 1754,
+          "unicode_cmap_count": 1372,
+          "metrics": {
+            "units_per_em": 1000,
+            "ascender": 1020,
+            "descender": -300,
+            "line_gap": 0,
+            "x_height": 550,
+            "cap_height": 730
+          },
+          "features": {
+            "GSUB": [
+              "aalt",
+              "calt",
+              "case",
+              "ccmp",
+              "cv01",
+              "cv02",
+              "cv03",
+              "cv04",
+              "cv05",
+              "cv06",
+              "cv07",
+              "cv08",
+              "cv09",
+              "cv10",
+              "cv11",
+              "cv12",
+              "cv14",
+              "cv15",
+              "cv16",
+              "cv17",
+              "cv18",
+              "cv19",
+              "cv20",
+              "cv99",
+              "frac",
+              "locl",
+              "ordn",
+              "sinf",
+              "ss01",
+              "ss02",
+              "ss19",
+              "ss20",
+              "subs",
+              "sups",
+              "zero"
+            ],
+            "GPOS": [
+              "mark",
+              "mkmk"
+            ]
+          }
+        }
+      ],
+      "status": "validated",
+      "upstream_repository": "https://github.com/JetBrains/JetBrainsMono",
+      "validation_scope": {
+        "specimen": "specimen.html",
+        "inspection": "font-inspection.json",
+        "browser": "browser-verification.json",
+        "roles": [
+          "numbers",
+          "code"
+        ],
+        "weights_tested": [
+          400,
+          500
+        ],
+        "languages_verified": [
+          "en"
+        ],
+        "limitations": [
+          "仅验证样张实际文案与本机 Edge 152；不代表全部语言或全部字轴连续值",
+          "未验证印刷、生产网络性能或其他操作系统"
+        ]
+      }
+    }
+  ],
+  "pairings": [
+    {
+      "id": "tracefold-bilingual-01",
+      "status": "validated",
+      "specimen": "specimen.html",
+      "fonts": [
+        "space-grotesk",
+        "noto-sans-sc",
+        "jetbrains-mono"
+      ],
+      "brand": "Tracefold / 迹序",
+      "subtitle": "让每次决策都有来处。",
+      "screenshots": [
+        "shots/specimen-desktop.png",
+        "shots/specimen-mobile.png"
+      ],
+      "validation": "browser-verification.json"
+    }
+  ]
+}
