@@ -266,6 +266,26 @@ if (fs.existsSync(applicationsRoot)) capture(result, 'application templates', ()
   }
   result.counts.application_templates = j.templates.length;
 });
+const vendorRoot = path.join(root, 'vendor');
+if (fs.existsSync(vendorRoot)) capture(result, 'vendored upstream', () => {
+  let count = 0;
+  for (const name of fs.readdirSync(vendorRoot)) {
+    const dir = path.join(vendorRoot, name);
+    if (!fs.statSync(dir).isDirectory()) continue;
+    const j = readJSON(localFile(root, 'SOURCE.json', { base: dir }));
+    assert(/^https:\/\//.test(j.upstream || '') && /^[a-f\d]{40}$/.test(j.commit || ''), 'VENDOR_SOURCE', `vendor/${name}/SOURCE.json needs upstream URL and 40-hex commit`);
+    unique(j.files, `vendor/${name} files`, 'path');
+    for (const record of j.files) verifyHash(localFile(root, record.path, { base: dir }), record.sha256);
+    const listed = new Set(j.files.map(record => record.path));
+    for (const file of walk(dir)) {
+      const relative = path.relative(dir, file).split(path.sep).join('/');
+      if (path.basename(file) === '.DS_Store') continue;
+      assert(relative === 'SOURCE.json' || listed.has(relative), 'VENDOR_UNLISTED', `Unlisted vendored file: vendor/${name}/${relative}`);
+    }
+    count += j.files.length;
+  }
+  result.counts.vendored_files = count;
+});
 result.counts.markdown_files = markdowns.length;
 result.counts.local_links = links;
 result.counts.style_packs = packs.length;

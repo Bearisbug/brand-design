@@ -31,7 +31,7 @@
 
 **从哪里进入：** 已有品牌资产与视觉规则，需要交给开发使用时，明确目标平台和本次场景，进入 [开发视觉交接流程](flow-handoff.md)，按 [BD-HANDOFF-001](handoff.md#bd-handoff-001)处理。现有资料足以支持本轮交接时直接开始；缺项影响当前映射时，只返回前两段补齐对应部分。
 
-**实际产物：** 按目标平台交付视觉规则、tokens 与格式映射、字体加载和 fallback、资产映射、约定的组件视觉与状态示例。业务需求、页面导航、API 与产品代码实现按 [交接范围](flow-logo.md#handoff)交给对应任务。
+**实际产物：** 按目标平台交付视觉规则、按 [BD-TOKEN-001](system.md#bd-token-001)确定深度的 tokens 与生成配置、字体加载和 fallback、资产与图标映射、约定的组件视觉与状态示例。业务需求、页面导航、API 与产品代码实现按 [交接范围](flow-logo.md#handoff)交给对应任务。
 
 **如何验收：** 按 [BD-HANDOFF-001](handoff.md#bd-handoff-001)核对实际目标平台上的配置、资源与示例；共同的证据和交付状态沿用 [BD-QA-001](assets.md#bd-qa-001)与 [BD-DELIVERY-001](assets.md#bd-delivery-001)。
 

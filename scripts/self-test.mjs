@@ -9,7 +9,7 @@ import { sha256, run, fontSignature, requireValue as assert } from './lib/valida
 const here = path.dirname(fileURLToPath(import.meta.url));
 const args = process.argv.slice(2);
 if (args.includes('--help')) {
-  console.log('Usage: node scripts/self-test.mjs [--output /path/to/results.json]\nCreates isolated local fixtures, runs positive and fault cases, removes fixtures, and writes a mechanical test report. Requires Node, xmllint and magick.');
+  console.log('Usage: node scripts/self-test.mjs [--output /path/to/results.json]\nCreates isolated local fixtures, runs positive and fault cases, removes fixtures, and writes a mechanical test report. Requires Node, xmllint, magick and uv.');
   process.exit(0);
 }
 assert(args.length === 0 || args.length === 2 && args[0] === '--output', 'ARGUMENT', 'Use --output REPORT.json or no arguments');
@@ -235,13 +235,86 @@ try {
   testSkill('application-duplicate-id','ID_DUPLICATE', (data,dir) => { const base=applicationFixture(data,dir), t={id:'card',width:1200,height:630,file:'card.html'}; write(base,'templates.json',{schema_version:1,templates:[t,t]}); });
   testSkill('application-layout-slot-missing','APPLICATION_MARKERS', (data,dir) => { const base=applicationFixture(data,dir), file=path.join(base,'card.html'); fs.writeFileSync(file,fs.readFileSync(file,'utf8').replace('{{LAYOUT_STYLE}}','')); });
   testSkill('application-template-path-escape','PATH_ESCAPE', (data,dir) => { const base=applicationFixture(data,dir); write(dir,'outside.html',fs.readFileSync(path.join(base,'card.html'),'utf8')); write(base,'templates.json',{schema_version:1,templates:[{id:'card',width:1200,height:630,file:'../../outside.html'}]}); });
+  function vendorFixture(_, dir) {
+    const base = path.join(dir, 'vendor/upstream');
+    write(base, 'scripts/tool.py', 'print("fixture")\n');
+    write(base, 'SOURCE.json', { upstream: 'https://example.com/upstream', commit: 'a'.repeat(40), files: [{ path: 'scripts/tool.py', sha256: sha256(path.join(base, 'scripts/tool.py')) }] });
+    return base;
+  }
+  testSkill('vendor-valid','PASS', vendorFixture);
+  testSkill('vendor-edited-in-place','HASH_MISMATCH', (data,dir) => { const base=vendorFixture(data,dir); fs.appendFileSync(path.join(base,'scripts/tool.py'),'# local edit\n'); });
+  testSkill('vendor-unlisted-file','VENDOR_UNLISTED', (data,dir) => { const base=vendorFixture(data,dir); write(base,'scripts/extra.py','print(1)\n'); });
+  testSkill('vendor-missing-commit','VENDOR_SOURCE', (data,dir) => { const base=vendorFixture(data,dir), j=JSON.parse(fs.readFileSync(path.join(base,'SOURCE.json'),'utf8')); delete j.commit; write(base,'SOURCE.json',j); });
+
+  const example = path.join(here, '..', 'vendor', 'theme-extract', 'references', 'profile2-example');
+  const generator = path.join(here, '..', 'vendor', 'theme-extract', 'scripts', 'build_tokens.py');
+  const generate = dir => run('uv', ['run','--quiet','python',generator,dir,'--emit','all'], { timeout: 120000 });
+  function testTokens(name, expected, mutate = () => {}, lint) {
+    const dir = path.join(temp, name);
+    fs.cpSync(example, dir, { recursive: true });
+    generate(dir);
+    const extra = mutate(dir) || [];
+    const { exit_code, report } = invoke('check-tokens.mjs', [dir, ...(lint ? ['--lint', ...extra] : [])]);
+    const codes = report.errors.map(error => error.code);
+    results.push({ case:name, expected, actual:report.result, detected_codes:codes, pass: expected === 'PASS' ? exit_code === 0 && report.result === 'PASS' : exit_code === 1 && codes.includes(expected) });
+  }
+  const editTokens = (dir, fn) => { const file=path.join(dir,'tokens.json'), j=JSON.parse(fs.readFileSync(file,'utf8')); fn(j); write(dir,'tokens.json',j); };
+  testTokens('tokens-full-example','PASS');
+  testTokens('tokens-hand-edited-css','GENERATED_STALE', dir => fs.appendFileSync(path.join(dir,'tokens.css'),'.x{color:red}\n'));
+  testTokens('tokens-dark-snapshot-missing','GENERATED_MISSING', dir => fs.unlinkSync(path.join(dir,'tokens.resolved.dark.json')));
+  testTokens('tokens-design-frontmatter-edited','GENERATED_STALE', dir => { const f=path.join(dir,'DESIGN.md'); fs.writeFileSync(f,fs.readFileSync(f,'utf8').replace(/primary: "#[0-9A-F]+"/,'primary: "#000000"')); });
+  testTokens('tokens-category-undeclared','GENERATOR_FAILED', dir => editTokens(dir, j => delete j.meta.categories.motion));
+  testTokens('tokens-contrast-below-threshold','CONTRAST_FAIL', dir => { editTokens(dir, j => { j.semantic.color.text.tertiary.$value='{primitive.color.neutral.300}'; }); generate(dir); });
+  testTokens('tokens-leftover-snapshot','GENERATED_UNEXPECTED', dir => fs.copyFileSync(path.join(dir,'tokens.resolved.dark.json'),path.join(dir,'tokens.resolved.sepia.json')));
+  testTokens('tokens-contrast-rounding-band','CONTRAST_FAIL', dir => { editTokens(dir, j => { j.primitive.color.neutral['550']={$value:'#6C6D72'}; j.semantic.color.text.tertiary.$value='{primitive.color.neutral.550}'; }); generate(dir); });
+  testTokens('tokens-roles-missing','ROLES_MISSING', dir => { editTokens(dir, j => { delete j.meta.roles; delete j.meta.categories; }); generate(dir); });
+  testTokens('tokens-state-overlay-contrast','CONTRAST_FAIL', dir => { editTokens(dir, j => { j.primitive.opacity.pressed.$value = 0.3; }); generate(dir); });
+  {
+    const dir = path.join(temp, 'tokens-minimal-overlay-advisory');
+    fs.cpSync(example, dir, { recursive: true });
+    editTokens(dir, j => { delete j.meta.categories; j.primitive.opacity.pressed.$value = 0.3; });
+    generate(dir);
+    const { exit_code, report } = invoke('check-tokens.mjs', [dir]);
+    const messages = report.errors.map(error => error.message);
+    const pass = exit_code === 1 && messages.length > 0 && messages.every(m => m.includes('onAccent on accent+pressed')) && report.warnings.some(w => w.includes('advisory') && w.includes('accent on surface.default+pressed'));
+    results.push({ case:'tokens-minimal-overlay-advisory', expected:'CONTRAST_FAIL only for onAccent, others advisory', actual:report.result, detected_codes:report.errors.map(error => error.code), pass });
+  }
+  testTokens('tokens-lint-vendor-prefix','NOT_USED', dir => [write(dir,'prefixed.css','.glass{-webkit-backdrop-filter:blur(12px)}\n')], true);
+  testTokens('tokens-lint-custom-property','NOT_USED', dir => [write(dir,'custom.css',':root{--hero-bg-2:linear-gradient(90deg,#fff,#000)}\n')], true);
+  testTokens('tokens-lint-nested-rule','NOT_USED', dir => [write(dir,'nested.css','.card{background:RADIAL-GRADIENT(#fff,#000);&:hover{color:red}}\n')], true);
+  testTokens('tokens-lint-single-quoted-style','NOT_USED', dir => [write(dir,'quoted.html',"<!doctype html><p style='text-shadow:0 0 2px red'>x</p>\n")], true);
+  testTokens('tokens-lint-selector-not-declaration','PASS', dir => [write(dir,'selector.css','a:hover{color:var(--semantic-color-text-primary)}\n.text-shadow-free{color:red}\n')], true);
+  testTokens('tokens-lint-clean','PASS', dir => [write(dir,'ok.css','.card{box-shadow:var(--semantic-elevation-raised);color:var(--semantic-color-text-primary)}\n')], true);
+  testTokens('tokens-lint-not-used','NOT_USED', dir => [write(dir,'bad.html','<!doctype html><style>.hero{background:linear-gradient(90deg,#fff,#000)}</style><p style="text-shadow:0 0 4px red">x</p>\n')], true);
+  function testBrandJson(name, expected, mutateMap = () => {}, after, mutateDir = () => {}) {
+    const dir = path.join(temp, name);
+    fs.cpSync(example, dir, { recursive: true });
+    generate(dir);
+    mutateDir(dir);
+    const map = { id:'sample', name:'Sample', language:'en', type:{ heading:'semantic.typographyDisplay.headline', body:'semantic.typographyDisplay.subhead', label:'semantic.typographyDisplay.eyebrow', file:'fonts/brand.ttf', license:'fonts/OFL.txt', weight_min:300, weight_max:700, kerning:'normal', ligatures:'normal' }, assets:{ logo_on_paper:'logo.svg' } };
+    mutateMap(map);
+    const mapFile = write(dir, 'map.json', map);
+    const { exit_code, report } = invoke('tokens-to-brand-json.mjs', [dir, mapFile]);
+    const codes = report.errors.map(error => error.code);
+    let pass = expected === 'PASS' ? exit_code === 0 && report.result === 'PASS' : exit_code === 1 && codes.includes(expected);
+    if (pass && after) pass = after(JSON.parse(fs.readFileSync(path.join(dir,'brand.json'),'utf8')));
+    results.push({ case:name, expected, actual:report.result, detected_codes:codes, pass });
+  }
+  testBrandJson('brand-json-from-tokens','PASS', undefined, b => b.colors.paper === '#F7F7F8' && b.colors.brand === '#3E5BD8' && b.type.family === 'Space Grotesk' && b.type.heading_weight === 600 && b.type.heading_tracking_em === -0.0125 && b.generated_from.colors.paper === 'semantic.color.surface.background');
+  testBrandJson('brand-json-dark-mode','PASS', m => { m.mode = 'dark'; }, b => b.colors.paper === '#18181B' && b.generated_from.mode === 'dark');
+  testBrandJson('brand-json-chinese-override','PASS', m => { m.language = 'zh-CN'; }, b => b.type.family === 'Noto Sans SC' && b.type.heading_tracking_em === 0 && b.generated_from.language_override === 'zh');
+  testBrandJson('brand-json-ignores-stale-snapshot','PASS', undefined, b => b.colors.brand === '#123456', dir => { const f=path.join(dir,'tokens.json'), j=JSON.parse(fs.readFileSync(f,'utf8')); j.primitive.color.brand.accent.$value='#123456'; write(dir,'tokens.json',j); });
+  testBrandJson('brand-json-unknown-mode','BRAND_JSON_MODE', m => { m.mode = 'sepia'; });
+  testBrandJson('brand-json-mixed-family','BRAND_JSON_FAMILY', m => { m.type.label = 'semantic.typography.code'; });
+  testBrandJson('brand-json-unmapped-role','BRAND_JSON_ROLE', m => { m.colors = { rule: 'elevation.sunken' }; });
+  testBrandJson('brand-json-non-color-role','BRAND_JSON_COLOR', m => { m.colors = { rule: 'elevation.raised' }; });
   const badFont=write(temp,'bad.ttf','not a font');
   let fontCode; try {fontSignature(badFont,'ttf');}catch(error){fontCode=error.code;}
   results.push({case:'font-invalid-signature',expected:'FONT_SIGNATURE',actual:fontCode,pass:fontCode==='FONT_SIGNATURE'});
 } finally {
   fs.rmSync(temp, { recursive: true, force: true });
 }
-const report = { schema_version:1, generated_at:new Date().toISOString(), scope:'Mechanical validator self-tests; synthetic fixtures, not Agent behavior or visual design validation.', node_version:process.version, validator_sha256:Object.fromEntries(['check-skill.mjs','validate-release.mjs','lib/validation.mjs','self-test.mjs'].map(file=>[file,sha256(path.join(here,file))])), result:results.every(test=>test.pass)?'PASS':'FAIL', total:results.length, passed:results.filter(test=>test.pass).length, cases:results, fixture_cleanup:'complete' };
+const report = { schema_version:1, generated_at:new Date().toISOString(), scope:'Mechanical validator self-tests; synthetic fixtures, not Agent behavior or visual design validation.', node_version:process.version, validator_sha256:Object.fromEntries(['check-skill.mjs','check-tokens.mjs','tokens-to-brand-json.mjs','validate-release.mjs','lib/validation.mjs','lib/tokens.mjs','self-test.mjs'].map(file=>[file,sha256(path.join(here,file))])), result:results.every(test=>test.pass)?'PASS':'FAIL', total:results.length, passed:results.filter(test=>test.pass).length, cases:results, fixture_cleanup:'complete' };
 const output = JSON.stringify(report,null,2)+'\n';
 if(args[0]==='--output') { const destination=path.resolve(args[1]);fs.mkdirSync(path.dirname(destination),{recursive:true});fs.writeFileSync(destination,output); }
 process.stdout.write(output);

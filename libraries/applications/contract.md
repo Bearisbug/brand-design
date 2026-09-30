@@ -4,7 +4,7 @@
 
 ## 品牌输入
 
-`brand.json` 是模板消费的品牌映射，可从项目 tokens 确定性生成。项目已有数值时禁止人工维护第二套互不关联的颜色/字体；记录映射来源。它不是完整品牌规范的替代品。
+`brand.json` 是模板消费的品牌映射。项目已有 profile-2 tokens 时用 [tokens-to-brand-json](../../scripts/tokens-to-brand-json.mjs)从 resolved tokens 生成，其 `generated_from` 字段记录来源与指纹；没有 tokens 时从品牌规范确定性整理。项目已有数值时禁止人工维护第二套互不关联的颜色/字体；记录映射来源。它不是完整品牌规范的替代品。
 
 | 字段 | 类型与含义 |
 | --- | --- |

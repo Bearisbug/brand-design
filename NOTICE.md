@@ -4,6 +4,12 @@ The MIT License in [LICENSE](LICENSE) covers the original text, scripts, templat
 
 [LICENSE](LICENSE) 中的 MIT 许可只覆盖本仓库的原创文本、脚本、模板与 Logo。下列材料沿用各自的条款，**不**随 MIT 重新授权。
 
+## Vendored code / 上游副本
+
+`vendor/theme-extract/` is a verbatim copy of the token generator, format documents and example from the same author's theme-extract skill; the upstream commit and per-file SHA-256 are in `vendor/theme-extract/SOURCE.json`. It is covered by this repository's MIT license.
+
+`vendor/theme-extract/` 是同一作者 theme-extract 技能中 tokens 生成器、格式文档与示例的原样副本，上游提交号与逐文件 SHA-256 记录在 `vendor/theme-extract/SOURCE.json`，随本仓库 MIT 许可分发。
+
 ## Fonts / 字体
 
 `libraries/fonts/files/` contains unmodified TTF files of Space Grotesk, Noto Sans SC and JetBrains Mono, distributed under the SIL Open Font License 1.1. Full license texts are in `libraries/fonts/licenses/`; official sources, versions and SHA-256 are recorded in `libraries/fonts/sources.json`.

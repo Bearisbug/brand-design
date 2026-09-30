@@ -16,4 +16,6 @@
 | BD-DELIVERY-001 | 打包、交付与阶段状态陈述 | [BD-DELIVERY-001 · 成品与证据](assets.md#bd-delivery-001) |
 | BD-SYSTEM-001 | 从已选 Logo 扩展品牌语言、手册和共同用法 | [BD-SYSTEM-001 · 从选稿到品牌语言](system.md#bd-system-001) |
 | BD-APPLICATION-001 | 创建或修改物料模板、替换文案、导出应用 | [BD-APPLICATION-001 · 品牌参数进入真实应用](system.md#bd-application-001) |
+| BD-TOKEN-001 | 交付设计 tokens 或设计系统，宣传物料与产品界面共用参数 | [BD-TOKEN-001 · 设计系统 token](system.md#bd-token-001) |
+| BD-ICON-001 | 设计系统、开发交接或组件示例需要界面图标 | [BD-ICON-001 · 图标集](system.md#bd-icon-001) |
 | BD-HANDOFF-001 | 品牌规则进入目标平台、tokens/配置与组件状态示例 | [BD-HANDOFF-001 · 品牌规则进入目标平台](handoff.md#bd-handoff-001) |

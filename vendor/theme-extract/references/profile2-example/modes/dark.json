@@ -1,0 +1,31 @@
+{
+  "$comment": "dark delta: re-points semantic color roles only; surfaces get lighter as they rise.",
+  "$coverage": { "confirmedSame": ["semantic.elevation.raised", "semantic.elevation.overlay"] },
+  "semantic": {
+    "color": {
+      "text": {
+        "primary": { "$value": "{primitive.color.neutral.50}" },
+        "secondary": { "$value": "{primitive.color.neutral.300}" },
+        "tertiary": { "$value": "{primitive.color.neutral.400}" },
+        "onAction": { "$value": "{primitive.color.neutral.950}" }
+      },
+      "surface": {
+        "sunken": { "$value": "{primitive.color.neutral.950}" },
+        "background": { "$value": "{primitive.color.neutral.900}" },
+        "raised": { "$value": "{primitive.color.neutral.850}" },
+        "overlay": { "$value": "{primitive.color.neutral.800}" },
+        "selected": { "$value": "{primitive.color.brand.tintDark}" }
+      },
+      "border": { "subtle": { "$value": "{primitive.color.neutral.700}" } },
+      "action": { "primary": { "$value": "{primitive.color.brand.accentDark}" } },
+      "feedback": {
+        "success": { "$value": "{primitive.color.feedback.successDark}" },
+        "warning": { "$value": "{primitive.color.feedback.warningDark}" },
+        "error": { "$value": "{primitive.color.feedback.errorDark}" }
+      }
+    },
+    "state": {
+      "focus": { "ring": { "$value": "{primitive.color.brand.accentDark}" } }
+    }
+  }
+}

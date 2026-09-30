@@ -27,6 +27,7 @@ The skill text is written in Chinese. You can talk to the agent in any language.
 | Recoloring or re-rendering an existing logo | [BD-EDIT-001](references/design.md#bd-edit-001), [BD-MATERIAL-001](references/design.md#bd-material-001) |
 | SVG/PNG masters, favicon, base asset delivery | [BD-MASTER-001](references/assets.md#bd-master-001) + [validation contract](references/validation-contract.md) |
 | Brand language, guidelines, supporting graphics, real materials | [Brand system flow](references/flow-system.md) + [application templates](libraries/applications/INDEX.md) |
+| Design-system tokens shared by marketing materials and product UI, icons | [BD-TOKEN-001](references/system.md#bd-token-001), [BD-ICON-001](references/system.md#bd-icon-001) |
 | Dev visual spec, tokens, font/asset config, component states | [Handoff flow](references/flow-handoff.md) + [Web consumption checks](references/handoff-web.md) |
 
 Business requirements, page navigation, APIs and product code are out of scope; the skill hands those to the matching task.
@@ -43,12 +44,13 @@ Mechanical checks, visual review and behavior tests are reported separately. Sma
 
 ```text
 SKILL.md                 entry: task routing and working rules
-references/              13 rule cards (BD-*), flows, validation contract
+references/              15 rule cards (BD-*), flows, validation contract
 libraries/styles/        16 style packs, 198 reference samples, per-image sources
 libraries/fonts/         Space Grotesk, Noto Sans SC, JetBrains Mono (OFL) + tested pairing
 libraries/prompts/       prompt patterns: new concept, refine, material, wordmark, application
 libraries/applications/  announcement 1200×630, story 1080×1350, cover 1600×900 + renderer
-scripts/                 skill checks, release manifest validator, self-test, renderer tests
+scripts/                 skill checks, release manifest validator, token checks, tokens → brand.json, self-test, renderer tests
+vendor/theme-extract/    verbatim copy of the token generator and profile-2 format docs (SOURCE.json pins upstream commit and SHA-256)
 agents/openai.yaml       display metadata for Codex
 AGENTS.md                maintenance rules for editing the skill itself
 ```
@@ -91,6 +93,7 @@ Claude Code, one project only: clone into `<project>/.claude/skills/brand-design
 | Tool | Needed for |
 | --- | --- |
 | Node.js 20+ | `check.sh`, validators, application renderer |
+| uv (Python 3, stdlib only) | the vendored token generator and `check-tokens` |
 | `xmllint` | SVG parsing in checks |
 | ImageMagick 7 (`magick`) | `check.sh --deep` and PNG/alpha checks in release validation |
 | A browser | previewing templates and exporting PNGs; the skill defaults to Microsoft Edge |
@@ -104,6 +107,7 @@ Ask the agent in plain language, for example:
 - "Keep the geometry of direction B v2 and only try a muted green palette."
 - "Build the SVG master for the selected mark and export the SVG, PNG and favicon set."
 - "Turn our brand guide into design tokens and a font config for our web app, with button state examples."
+- "Build a complete design system from the chosen logo so our marketing images and our frontend read the same tokens."
 
 ## Validation
 
@@ -115,6 +119,7 @@ Run from the skill root:
 node scripts/validate-release.mjs /abs/path/to/release/manifest.json
 node scripts/self-test.mjs --output /abs/path/to/validation-results.json
 node --test scripts/test-application-renderer.mjs
+node scripts/check-tokens.mjs /abs/path/to/brand --lint /abs/path/to/example.css
 ```
 
 Each command prints JSON and exits 0 on a mechanical pass. A pass does not prove visual quality, originality, font loading or license validity.

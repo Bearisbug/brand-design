@@ -25,6 +25,7 @@
 | 已有自有 Logo，只改配色或材质 | [BD-EDIT-001](references/design.md#bd-edit-001)、[BD-MATERIAL-001](references/design.md#bd-material-001) |
 | SVG/PNG 母版、favicon 与基础资产交付 | [BD-MASTER-001](references/assets.md#bd-master-001) + [交付合同](references/validation-contract.md) |
 | 品牌语言、品牌手册、辅助图形与真实物料 | [品牌系统流程](references/flow-system.md) + [应用模板库](libraries/applications/INDEX.md) |
+| 同时服务宣传物料与产品界面的设计系统 tokens、图标 | [BD-TOKEN-001](references/system.md#bd-token-001)、[BD-ICON-001](references/system.md#bd-icon-001) |
 | 开发视觉规范、tokens、字体与资产配置、组件状态 | [开发视觉交接流程](references/flow-handoff.md) + [Web 消费验证](references/handoff-web.md) |
 
 业务需求、页面导航、API 与产品代码不在范围内，交给对应任务处理。
@@ -41,12 +42,13 @@
 
 ```text
 SKILL.md                 入口：任务路由与工作规则
-references/              13 张规则卡（BD-*）、流程与交付合同
+references/              15 张规则卡（BD-*）、流程与交付合同
 libraries/styles/        16 个风格包、198 个参考样本，逐图记录来源
 libraries/fonts/         Space Grotesk、Noto Sans SC、JetBrains Mono（OFL）及一组已测搭配
 libraries/prompts/       Prompt 模式：新构思、轮廓细化、材质配色、字标、应用展示
 libraries/applications/  公告 1200×630、竖版 1080×1350、封面 1600×900 模板及渲染器
-scripts/                 Skill 自检、release manifest 校验、自测、渲染器测试
+scripts/                 Skill 自检、release manifest 校验、tokens 检查、tokens → brand.json、自测、渲染器测试
+vendor/theme-extract/    tokens 生成器与 profile-2 格式文档的原样副本（SOURCE.json 记录上游提交与 SHA-256）
 agents/openai.yaml       Codex 展示元数据
 AGENTS.md                维护本 Skill 时的规则
 ```
@@ -89,6 +91,7 @@ git clone --depth 1 https://github.com/Bearisbug/brand-design.git ~/.claude/skil
 | 工具 | 用途 |
 | --- | --- |
 | Node.js 20+ | `check.sh`、校验器、物料渲染器 |
+| uv（Python 3，仅标准库） | 运行 vendor 的 tokens 生成器与 `check-tokens` |
 | `xmllint` | 检查时解析 SVG |
 | ImageMagick 7（`magick`） | `check.sh --deep`，以及 release 校验中的 PNG 与透明度检查 |
 | 浏览器 | 预览模板、导出 PNG；默认使用 Microsoft Edge |
@@ -102,6 +105,7 @@ git clone --depth 1 https://github.com/Bearisbug/brand-design.git ~/.claude/skil
 - 「方向 B v2 的造型不动，只试一版低饱和的绿色。」
 - 「给选定的标志建 SVG 母版，导出 SVG、PNG 和 favicon。」
 - 「把品牌手册转成网页项目的 design tokens 和字体配置，附按钮状态示例。」
+- 「基于选定的 Logo 建一套完整设计系统，宣传图和前端都从这套 tokens 取值。」
 
 ## 校验
 
@@ -113,6 +117,7 @@ git clone --depth 1 https://github.com/Bearisbug/brand-design.git ~/.claude/skil
 node scripts/validate-release.mjs /abs/path/to/release/manifest.json
 node scripts/self-test.mjs --output /abs/path/to/validation-results.json
 node --test scripts/test-application-renderer.mjs
+node scripts/check-tokens.mjs /abs/path/to/brand --lint /abs/path/to/example.css
 ```
 
 每条命令输出 JSON，机械检查通过时退出码为 0。通过不代表视觉质量、原创性、字体加载或许可有效性已经验证。
