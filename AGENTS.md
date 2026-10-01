@@ -22,7 +22,7 @@
 | --- | --- |
 | 维护约束 | 本文件；不把普通品牌设计任务变成 Skill 开发任务 |
 | 执行规则 | `SKILL.md` 与 `references/`；规则集合使用稳定 ID、catalog 和唯一出处 |
-| 规则与结构治理 | 采用规则卡时写入 `references/CONVENTIONS.md`；定义字段、ID、拆分阈值及变更方式，本文件不重复其细则 |
+| 规则与结构治理 | 采用规则卡时写入 `references/CONVENTIONS.md`；定义字段、ID、拆分规则及变更方式，本文件不重复其细则 |
 | 四类库数据 | 建议分别用 `libraries/styles/`、`libraries/fonts/`、`libraries/prompts/`、`libraries/applications/`；首次入库时建立索引和字段约定，再保持稳定 |
 | 确定性处理 | `scripts/`；只有重复操作或可靠性收益明确时新增脚本，依赖与执行方式必须有说明 |
 | 上游副本 | `vendor/<上游>/`；原样复制，`SOURCE.json` 登记上游提交号与逐文件 SHA-256，`check.sh` 校验。格式或生成器问题回上游修复，再整体替换为新提交并重跑 `scripts/self-test.mjs`；禁止就地修改 |
