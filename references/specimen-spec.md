@@ -222,11 +222,11 @@ C3 要求样例页与真实页面共用同一份状态层实现。消费方把�
   outline: var(--focus-ring-width) solid var(--focus-ring-color);
   outline-offset: var(--focus-ring-offset);
 }
-@media (prefers-reduced-motion: reduce) { .state-layer::after { transition: none; } }
 ```
 
 - 宿主定位用零特异性的 `:where()`，组件自己的 absolute / fixed / sticky 定位优先。`isolation: isolate` 加 `z-index: -1` 让叠加层画在宿主背景之上、内容之下。
 - 悬停只在 `@media (hover: hover)` 下生效，触屏不留悬停态；强制类 `.is-*` 在媒体查询外，样例页的静态格照样显示。
+- 减少动态效果（`prefers-reduced-motion: reduce`）时保留状态层的透明度过渡和组件的颜色过渡，只去掉位移、缩放类动效，与 ui-constraints 的 MOTION-004 一致；不给 `.state-layer::after` 写 `transition: none`。
 - 禁用元素的叠加层归零，这条写在所有状态规则之后；禁用本身用元素透明度表达。
 - 焦点环是单独的 `.focus-ring` 类，用 outline 加 offset，forced-colors 下仍可见；不写成全局 `:focus-visible` 规则。
 - 选中状态用「选中高亮」颜色角色，不走叠加层。组件自身已占用 `::after` 时，外面再包一层元素承载状态层；`input`、`img` 等替换元素没有 `::after`，同样放在外层。
