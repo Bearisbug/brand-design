@@ -13,12 +13,15 @@ Mechanical checks for a profile-2 token set (see references/system.md#bd-token-0
      match byte for byte, with no extra generated-looking files left over;
   2. contrast matrix per mode over meta.roles (alpha composited, unrounded comparison), plus
      every semantic.color.dataViz.series color against the four surfaces at 3:1;
-  3. at full depth, dataViz is present with series 1..6 or notApplicable, never missing;
-  4. meta.notUsed lint over the --lint CSS/HTML files.
+  3. chart series distinctness per mode (DATAVIZ_DISTINCT): OKLCH lightness band and chroma floor,
+     adjacent series under simulated protanopia/deuteranopia and under normal vision, and distance
+     from the feedback colors (thresholds in the comment above the check);
+  4. at full depth, dataViz is present with series 1..6 or notApplicable, never missing;
+  5. meta.notUsed lint over the --lint CSS/HTML files.
 Requires uv. No network. Does not prove visual quality, font loading or component behavior.`);
   process.exit(0);
 }
-const result = report('design-system tokens: generator freshness, per-mode role and chart-series contrast, dataViz coverage, notUsed lint');
+const result = report('design-system tokens: generator freshness, per-mode role and chart-series contrast, chart-series distinctness, dataViz coverage, notUsed lint');
 const outIndex = args.indexOf('--out');
 const lintIndex = args.indexOf('--lint');
 const dirArg = args[0];
@@ -175,6 +178,87 @@ if (scratch) capture(result, 'contrast', () => {
     if (p.pass === false && !p.advisory) result.errors.push({ context: 'contrast', code: p.fg.startsWith('dataViz.') ? 'DATAVIZ_CONTRAST' : 'CONTRAST_FAIL', message: `${mode}: ${p.fg} on ${p.bg} = ${p.ratio}:1 < ${p.threshold}:1` });
   }
   if (failures) result.result = 'FAIL';
+});
+
+// Chart series distinctness per mode (DATAVIZ_DISTINCT; tokens-schema.md §6.3 "Series
+// distinctness"). Thresholds and the color-vision model are those of the categorical-palette
+// validator in Claude Code's bundled dataviz skill (scripts/validate_palette.js, checks 2-4b):
+//   - OKLCH lightness band: light 0.43-0.77, dark 0.48-0.67. The dark band applies when the
+//     mode's surface.default has OKLab L < 0.5, so mode names do not matter;
+//   - OKLCH chroma >= 0.10 (below it a hue reads as gray);
+//   - adjacent series n and n+1, protanopia and deuteranopia simulated with Machado, Oliveira &
+//     Fernandes (2009) at severity 1.0, the smaller OKLab deltaE x100 of the two: >= 8 target;
+//     6-8 is a warning (legal only with secondary encoding such as direct labels); < 6 fails;
+//   - worst adjacent pair under normal vision: OKLab deltaE x100 >= 15.
+// The feedback floor reuses the normal-vision floor: every series color stays >= 15 from
+// feedback.success / warning / error of the same mode, so a series never reads as a status.
+// Contrast against the surfaces is DATAVIZ_CONTRAST above.
+const BAND = { light: [0.43, 0.77], dark: [0.48, 0.67] };
+const CHROMA_FLOOR = 0.10, CVD_TARGET = 8, CVD_FLOOR = 6, NORMAL_FLOOR = 15, FEEDBACK_FLOOR = 15;
+const MACHADO = {
+  protan: [[0.152286, 1.052583, -0.204868], [0.114503, 0.786281, 0.099216], [-0.003882, -0.048116, 1.051998]],
+  deutan: [[0.367322, 0.860646, -0.227968], [0.280085, 0.672501, 0.047413], [-0.011820, 0.042940, 0.968881]]
+};
+const linearRGB = c => [c.r, c.g, c.b].map(x => { x /= 255; return x <= 0.04045 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4; });
+function oklab([r, g, b]) {
+  const l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b);
+  const m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b);
+  const s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
+  return [0.2104542553 * l + 0.7936177850 * m - 0.0040720468 * s, 1.9779984951 * l - 2.4285922050 * m + 0.4505937099 * s, 0.0259040371 * l + 0.7827717662 * m - 0.8086757660 * s];
+}
+const simulate = (rgb, kind) => MACHADO[kind].map(row => Math.min(1, Math.max(0, row[0] * rgb[0] + row[1] * rgb[1] + row[2] * rgb[2])));
+const deltaE = (a, b, kind) => {
+  const p = oklab(kind ? simulate(linearRGB(a), kind) : linearRGB(a)), q = oklab(kind ? simulate(linearRGB(b), kind) : linearRGB(b));
+  return 100 * Math.hypot(p[0] - q[0], p[1] - q[1], p[2] - q[2]);
+};
+const round1 = x => Math.floor(x * 10) / 10;
+if (scratch) capture(result, 'dataViz distinctness', () => {
+  const roles = tree.meta?.roles || {};
+  const modes = {};
+  const fail = message => { result.errors.push({ context: 'dataViz', code: 'DATAVIZ_DISTINCT', message }); result.result = 'FAIL'; };
+  for (const file of fs.readdirSync(scratch).filter(name => /^tokens\.resolved(\.[\w-]+)?\.json$/.test(name)).sort()) {
+    const resolved = readJSON(path.join(scratch, file));
+    const mode = resolved.meta?.resolvedMode || tree.meta?.defaultMode || 'base';
+    const series = leafAt(resolved, 'semantic.color.dataViz.series') || {};
+    const keys = Object.keys(series).filter(key => /^\d+$/.test(key)).sort((a, b) => a - b);
+    if (!keys.length) continue;
+    const roleColor = role => typeof roles[role] === 'string' ? parseColor(leafAt(resolved, roles[role])?.$value) : null;
+    const base = roleColor('surface.default');
+    const opaque = c => c.a < 1 && base ? over(c, base) : c;
+    const colors = keys.map(key => {
+      const parsed = parseColor(series[key]?.$value);
+      assert(parsed, 'COLOR_FORMAT', `${mode}: dataViz.series.${key} is not a hex/rgb color the checker can compute`);
+      return opaque(parsed);
+    });
+    const bandName = base && oklab(linearRGB(base))[0] < 0.5 ? 'dark' : 'light';
+    const [lo, hi] = BAND[bandName];
+    keys.forEach((key, i) => {
+      const [L, a, b] = oklab(linearRGB(colors[i])), C = Math.hypot(a, b);
+      if (L < lo || L > hi) fail(`${mode}: dataViz.series.${key} OKLCH L ${L.toFixed(3)} is outside the ${bandName} band ${lo}-${hi}`);
+      if (C < CHROMA_FLOOR) fail(`${mode}: dataViz.series.${key} OKLCH C ${C.toFixed(3)} < ${CHROMA_FLOOR} (reads as gray)`);
+    });
+    let worstCvd = Infinity, worstNormal = Infinity, nearestFeedback = Infinity;
+    for (let i = 0; i + 1 < keys.length; i++) {
+      const pair = `dataViz.series.${keys[i]} / ${keys[i + 1]}`;
+      const cvd = Math.min(deltaE(colors[i], colors[i + 1], 'protan'), deltaE(colors[i], colors[i + 1], 'deutan'));
+      const normal = deltaE(colors[i], colors[i + 1]);
+      worstCvd = Math.min(worstCvd, cvd); worstNormal = Math.min(worstNormal, normal);
+      if (cvd < CVD_FLOOR) fail(`${mode}: ${pair} CVD deltaE ${round1(cvd)} < ${CVD_FLOOR}`);
+      else if (cvd < CVD_TARGET) result.warnings.push(`${mode}: ${pair} CVD deltaE ${round1(cvd)} is in the ${CVD_FLOOR}-${CVD_TARGET} band: legal only when the dataViz $description and DESIGN.md require secondary encoding (direct labels, gaps or texture)`);
+      if (normal < NORMAL_FLOOR) fail(`${mode}: ${pair} normal-vision deltaE ${round1(normal)} < ${NORMAL_FLOOR}`);
+    }
+    for (const role of ['feedback.success', 'feedback.warning', 'feedback.error']) {
+      const feedback = roleColor(role);
+      if (!feedback) continue;
+      keys.forEach((key, i) => {
+        const d = deltaE(colors[i], opaque(feedback));
+        nearestFeedback = Math.min(nearestFeedback, d);
+        if (d < FEEDBACK_FLOOR) fail(`${mode}: dataViz.series.${key} is deltaE ${round1(d)} from ${role} (< ${FEEDBACK_FLOOR}); a series must not read as a status color`);
+      });
+    }
+    modes[mode] = { band: bandName, series: keys.length, worst_adjacent_cvd: round1(worstCvd), worst_adjacent_normal: round1(worstNormal), nearest_feedback: Number.isFinite(nearestFeedback) ? round1(nearestFeedback) : null };
+  }
+  result.dataviz_distinct = modes;
 });
 
 // Full depth derives chart colors from the accent by default; only a product the

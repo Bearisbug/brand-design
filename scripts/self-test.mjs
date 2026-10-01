@@ -293,6 +293,45 @@ try {
     const pass = exit_code === 1 && messages.length > 0 && messages.every(m => m.startsWith('dark: dataViz.series.2 on '));
     results.push({ case:'tokens-dataviz-dark-low-contrast', expected:'DATAVIZ_CONTRAST only in dark mode', actual:report.result, detected_codes:report.errors.map(error => error.code), pass });
   }
+  {
+    const dir = path.join(temp, 'tokens-dataviz-distinct-both-modes');
+    fs.cpSync(example, dir, { recursive: true });
+    generate(dir);
+    const { exit_code, report } = invoke('check-tokens.mjs', [dir]);
+    const modes = report.dataviz_distinct || {};
+    const pass = exit_code === 0 && modes.light?.band === 'light' && modes.dark?.band === 'dark'
+      && ['light', 'dark'].every(m => modes[m].series === 6 && modes[m].worst_adjacent_cvd >= 8 && modes[m].worst_adjacent_normal >= 15 && modes[m].nearest_feedback >= 15)
+      && !report.warnings.some(w => w.includes('dataViz'));
+    results.push({ case:'tokens-dataviz-distinct-both-modes', expected:'PASS: series distinct in light and dark, no CVD warning', actual:report.result, detected_codes:report.errors.map(error => error.code), pass });
+  }
+  function testDistinct(name, mutate, check) {
+    const dir = path.join(temp, name);
+    fs.cpSync(example, dir, { recursive: true });
+    mutate(dir);
+    generate(dir);
+    const { exit_code, report } = invoke('check-tokens.mjs', [dir]);
+    const messages = report.errors.filter(error => error.code === 'DATAVIZ_DISTINCT').map(error => error.message);
+    results.push({ case:name, expected:'DATAVIZ_DISTINCT', actual:report.result, detected_codes:report.errors.map(error => error.code), pass: exit_code === 1 && messages.length > 0 && check(messages) });
+  }
+  const lightSeries = values => dir => editTokens(dir, j => { for (const [key, hex] of Object.entries(values)) j.primitive.color.dataViz.series[key].$value = hex; });
+  // Series from a fixed +60 deg hue rotation of the accent: series 3-5 land on the feedback hues.
+  testDistinct('tokens-dataviz-hue-rotation-collides', lightSeries({ 2:'#9D4A9A', 3:'#BD4A3E', 4:'#967501', 5:'#2A9749', 6:'#0D95A6' }),
+    m => m.every(x => x.startsWith('light: ')) && m.some(x => x.includes('series.3 / 4 CVD')) && m.some(x => x.includes('normal-vision')) && m.some(x => x.includes('series.3 is') && x.includes('feedback.error')));
+  testDistinct('tokens-dataviz-dark-accent-off-band', dir => {
+    const darkFile = path.join(dir,'modes','dark.json'), dark = JSON.parse(fs.readFileSync(darkFile,'utf8'));
+    dark.semantic.color.dataViz.series['1'].$value = '{primitive.color.brand.accentDark}'; write(dir,'modes/dark.json',dark);
+  }, m => m.length === 1 && m[0].startsWith('dark: dataViz.series.1 OKLCH L') && m[0].includes('dark band'));
+  testDistinct('tokens-dataviz-near-feedback', lightSeries({ 4:'#B83A30' }), m => m.some(x => x.startsWith('light: dataViz.series.4 is') && x.includes('feedback.error')));
+  testDistinct('tokens-dataviz-low-chroma', lightSeries({ 6:'#4F5B6E' }), m => m.some(x => x.startsWith('light: dataViz.series.6 OKLCH C')));
+  {
+    const dir = path.join(temp, 'tokens-dataviz-cvd-warning-band');
+    fs.cpSync(example, dir, { recursive: true });
+    lightSeries({ 6:'#027FBB' })(dir);
+    generate(dir);
+    const { exit_code, report } = invoke('check-tokens.mjs', [dir]);
+    const pass = exit_code === 0 && report.warnings.some(w => w.startsWith('light: dataViz.series.5 / 6 CVD') && w.includes('6-8 band'));
+    results.push({ case:'tokens-dataviz-cvd-warning-band', expected:'PASS with a 6-8 CVD warning (secondary encoding required)', actual:report.result, detected_codes:report.errors.map(error => error.code), pass });
+  }
   testTokens('tokens-dataviz-marked-missing','DATAVIZ_REQUIRED', dir => { editTokens(dir, j => { j.meta.categories.dataViz = { status:'missing', reason:'not designed yet' }; }); generate(dir); });
   testTokens('tokens-dataviz-series-incomplete','DATAVIZ_REQUIRED', dir => {
     editTokens(dir, j => { delete j.semantic.color.dataViz.series['6']; });

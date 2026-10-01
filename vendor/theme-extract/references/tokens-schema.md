@@ -303,10 +303,29 @@ leaves keyed by consecutive integers from `1`:
   `primitive.color.dataViz.{series,sequential,diverging}.<key>`, dark-mode hues under
   `primitive.color.dataVizDark.*` (same pattern as `neutralDark`). A step whose hex already exists as a
   primitive aliases that primitive instead of adding a copy — the duplicate-primitive gate fails on a
-  second leaf with the same hex. Typical cases: `series.1` is the accent itself, the diverging middle
-  step is a neutral.
+  second leaf with the same hex. Typical cases: `series.1` is the accent itself (when the accent passes
+  the lightness and chroma checks below), the diverging middle step is a neutral.
 - **Per mode.** `modes/<mode>.json` re-points every palette leaf to that mode's hues (light and dark
   each get their own set); a leaf left un-re-pointed shows the base hue on the other mode's surfaces.
+- **Series distinctness.** A `series` set a producer derives passes every check below in every mode.
+  ΔE is the Euclidean distance in OKLab ×100. The lightness band, chroma floor, simulation model and
+  the color-vision-deficiency (CVD) and normal-vision floors are those of the categorical-palette
+  validator in Claude Code's bundled `dataviz` skill (`scripts/validate_palette.js`, checks 2–5); the
+  feedback floor reuses its normal-vision floor.
+
+  | Check | Requirement |
+  | --- | --- |
+  | Lightness | OKLCH L inside the mode band: light 0.43–0.77, dark 0.48–0.67 |
+  | Chroma | OKLCH C ≥ 0.10 |
+  | Contrast | ≥ 3:1 (WCAG) against each of the four surface roles of that mode |
+  | CVD | adjacent slots `n` and `n+1`, protanopia and deuteranopia simulated with Machado, Oliveira & Fernandes (2009) at severity 1.0, the smaller ΔE of the two: ≥ 8 passes; 6–8 passes only when the group's `$description` requires secondary encoding (direct labels, gaps or texture) wherever adjacent series meet; < 6 fails |
+  | Normal vision | worst adjacent pair ΔE ≥ 15 |
+  | Feedback | every series color against each of `feedback.success`, `feedback.warning` and `feedback.error` of the same mode: ΔE ≥ 15 |
+
+  `series.1` is the accent only when that mode's accent passes the lightness band and the chroma
+  floor; otherwise `series.1` keeps the accent's OKLCH hue with L and C re-chosen inside the band and
+  above the floor. A series sampled off a captured app's charts stays `measured` and is never
+  re-colored; each check it fails is listed in the group's `$description`.
 - **Confidence.** Hues sampled off rendered charts are `measured`. A producer that computes them from
   the brand marks them `confidence: derived` and writes the derivation rule into the group's
   `$description`, so a reviewer can recompute every step.
