@@ -11,12 +11,14 @@ Mechanical checks for a profile-2 token set (see references/system.md#bd-token-0
   1. regenerates every consumable with vendor/theme-extract (uv run python) in a temp copy and
      requires the delivered tokens.css / adapters / resolved snapshots / DESIGN.md frontmatter to
      match byte for byte, with no extra generated-looking files left over;
-  2. contrast matrix per mode over meta.roles (alpha composited, unrounded comparison);
-  3. meta.notUsed lint over the --lint CSS/HTML files.
+  2. contrast matrix per mode over meta.roles (alpha composited, unrounded comparison), plus
+     every semantic.color.dataViz.series color against the four surfaces at 3:1;
+  3. at full depth, dataViz is present with series 1..6 or notApplicable, never missing;
+  4. meta.notUsed lint over the --lint CSS/HTML files.
 Requires uv. No network. Does not prove visual quality, font loading or component behavior.`);
   process.exit(0);
 }
-const result = report('design-system tokens: generator freshness, per-mode role contrast, notUsed lint');
+const result = report('design-system tokens: generator freshness, per-mode role and chart-series contrast, dataViz coverage, notUsed lint');
 const outIndex = args.indexOf('--out');
 const lintIndex = args.indexOf('--lint');
 const dirArg = args[0];
@@ -151,14 +153,37 @@ if (scratch) capture(result, 'contrast', () => {
       if (!pass && !strict) result.warnings.push(`advisory (minimal depth): ${mode}: ${fgRole} on ${row.bg} = ${row.ratio}:1 < 4.5:1`);
       pairs.push(row);
     }
+    // Chart series are graphical objects: 3:1 against every surface layer (WCAG 1.4.11).
+    const series = leafAt(resolved, 'semantic.color.dataViz.series') || {};
+    for (const key of Object.keys(series).filter(key => !key.startsWith('$'))) {
+      const fg = parseColor(series[key]?.$value);
+      assert(fg, 'COLOR_FORMAT', `${mode}: dataViz.series.${key} is not a hex/rgb color the checker can compute`);
+      for (const bgRole of SURFACES) {
+        const bgRaw = color(bgRole);
+        if (!bgRaw || !base) continue;
+        const bg = bgRaw.a < 1 ? over(bgRaw, base) : bgRaw;
+        const exact = ratio(fg.a < 1 ? over(fg, bg) : fg, bg);
+        if (exact < 3) failures++;
+        pairs.push({ fg: `dataViz.series.${key}`, bg: bgRole, ratio: Math.floor(exact * 100) / 100, threshold: 3, pass: exact >= 3 });
+      }
+    }
     modes[mode] = { file, pairs };
   }
   result.contrast = { modes, skipped: [...skipped].sort(), failures };
   result.counts.contrast_pairs = Object.values(modes).reduce((n, m) => n + m.pairs.length, 0);
   for (const [mode, data] of Object.entries(modes)) for (const p of data.pairs) {
-    if (p.pass === false && !p.advisory) result.errors.push({ context: 'contrast', code: 'CONTRAST_FAIL', message: `${mode}: ${p.fg} on ${p.bg} = ${p.ratio}:1 < ${p.threshold}:1` });
+    if (p.pass === false && !p.advisory) result.errors.push({ context: 'contrast', code: p.fg.startsWith('dataViz.') ? 'DATAVIZ_CONTRAST' : 'CONTRAST_FAIL', message: `${mode}: ${p.fg} on ${p.bg} = ${p.ratio}:1 < ${p.threshold}:1` });
   }
   if (failures) result.result = 'FAIL';
+});
+
+// Full depth derives chart colors from the accent by default; only a product the
+// user says has no charts is notApplicable (BD-TOKEN-001).
+if (result.depth === 'full') capture(result, 'dataViz', () => {
+  const status = tree.meta.categories.dataViz?.status;
+  const series = leafAt(tree, 'semantic.color.dataViz.series') || {};
+  assert(status !== 'missing', 'DATAVIZ_REQUIRED', 'meta.categories.dataViz is missing: derive the chart series from the accent, or mark notApplicable only when the user says the product has no charts');
+  assert(status !== 'present' || [1, 2, 3, 4, 5, 6].every(n => series[n]?.$value !== undefined), 'DATAVIZ_REQUIRED', 'dataViz is present but semantic.color.dataViz.series lacks leaves 1..6');
 });
 if (scratch) fs.rmSync(scratch, { recursive: true, force: true });
 

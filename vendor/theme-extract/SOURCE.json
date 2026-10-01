@@ -1,29 +1,29 @@
 {
   "upstream": "https://github.com/Bearisbug/theme-extract",
-  "commit": "4223a3e80fc05a18f2ea617836759cf527fce224",
-  "copied": "2026-10-01",
+  "commit": "128fb505d93c47152f3d3e159ada93adb6a0be17",
+  "copied": "2026-10-02",
   "license": "Same author as brand-design; redistributed under this repository's MIT license.",
   "note": "Verbatim copies. Update by copying the same paths from a newer upstream commit and refreshing commit/sha256; never edit in place.",
   "files": [
     {
       "path": "references/profile2-example/modes/dark.json",
-      "sha256": "d70f61d015847a4a3097710dcc7bdfaace51e26ef5d5534ca5a501807556f683"
+      "sha256": "fc03bb13549d7e12887f7d8dbb3016e2cd610269aac72ff98c729ec32ea7f7a7"
     },
     {
       "path": "references/profile2-example/tokens.json",
-      "sha256": "27fa015a150e1c8a86f55bab78597f4f858de1ed72b3f56b3db5185d90152df0"
+      "sha256": "937a1e6e3e3b95b417278fb940b1158cdb51082b810656c7fa94ec3b0465ef37"
     },
     {
       "path": "references/tokens-projection.md",
-      "sha256": "f25ad4cadc9c32ee8d697620c60fbe153dccdd28f6533dd7963538807fd0f351"
+      "sha256": "2f3b4e394f6fd6d02ff172d5ccf0d2f68d343c0efe934151c47c252e9e498489"
     },
     {
       "path": "references/tokens-schema.md",
-      "sha256": "dc84fe7b9a2b1488e85b7251b1ed057bb5a11232ee4a576b20ddbc94537e1c6b"
+      "sha256": "b1107c552c8da08f30a7421ca3f13ec5af0de72ff1b28532232d393106943120"
     },
     {
       "path": "scripts/build_tokens.py",
-      "sha256": "0b07524b55c6fe2effc57a6628cff2cb23453e53fb39ffca94b7abcc8916069a"
+      "sha256": "33fa5fac8a247b6b3c9058db4a31fa78e68d5f3234f4ca127994f0f4e6d8df7b"
     }
   ]
 }

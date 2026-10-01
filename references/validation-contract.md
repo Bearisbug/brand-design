@@ -28,6 +28,7 @@ node scripts/self-test.mjs --output /absolute/path/to/validation-results.json
 - 默认展示按 `display_file → detail_file → asset.preview_file` 解析，必须能追到对应来源或增强输出。增强必须保留输入、输出、完整 Prompt 文件引用、工具与复核记录；包总览与全库总览不增加案例数。裁切检查坐标边界和已声明的裁切/留白尺寸，不宣称像素重建已验证。
 - SHA 检查覆盖来源、preview、detail、增强及总览。默认读 PNG/JPEG/GIF/WebP/AVIF 头部与 SVG 画布；`--deep` 额外用解码器读取栅格第一帧与尺寸，不能替代逐例目检。AVIF 头部读取首个空间尺寸属性；多图、网格或动画文件需对实际第一帧以 `--deep` 核对。
 - 字体清单位于 `libraries/fonts/sources.json`，采用 `schema_version: 1`、`fonts` 数组；每项含 `id`、`family`、`official_url`、`license_file`、`files:[{path,sha256,format}]`。路径相对 fonts 目录，校验文件、SHA 与 TTF/OTF/WOFF/WOFF2 签名；声明 license SHA 或 bytes 时也校验。字形覆盖、可变轴、许可解释和浏览器实际加载须另行验证。
+- 发布文本不得含本机绝对路径：扫描 git 受跟踪文件与未被忽略的新文件（Skill 根不在 git 里时扫描整个目录），文本行中出现以 `/Users` 起头的目录路径或指向它的 `file://` 链接即报 `LOCAL_PATH`。浏览器采集等证据里的页面地址写成相对 Skill 根目录的路径，另记采集日期与浏览器版本。二进制文件不扫描，第三方原图内嵌的元数据保持原样。
 - 应用库存在时检查 `libraries/applications/templates.json` 的 schema、唯一 ID、尺寸与 HTML 路径，入口/合同/渲染器是否存在、基本槽名及 brand.css 接入；逐项内容槽、资源选择与写入保护由 [应用渲染器](../libraries/applications/render.mjs)执行，其合同见 [应用数据](../libraries/applications/contract.md)。静态检查不解释完整 HTML/CSS 语义，不证明文字可见或版面合格；渲染器正反案例使用 `node --test scripts/test-application-renderer.mjs`。
 
 ## Release manifest v1

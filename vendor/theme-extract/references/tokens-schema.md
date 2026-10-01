@@ -1,17 +1,15 @@
-# tokens-schema.md — the portable design-extract token contract (canonical; "design-extract" is the frozen format/profile name — the skill itself is now named theme-extract)
+# tokens-schema.md — the portable design-extract token contract (canonical; `com.design-extract` and `design-extract/profile-N` are frozen format identifiers, independent of the skill name — never change them)
 
-Synthesis of the three spine proposals. `tokens.json` stops being a flat hand-read lookup and
-becomes a **typed, aliased DTCG graph that is INPUT to a resolver**. Every consumable file
-(`tokens.css`, `DESIGN.md` frontmatter, `tokens.resolved.json`; Tailwind `@theme` / Swift / Android
-are 规划中、未实现 — see tokens-projection.md "Planned targets")
-is a generated projection — never hand-authored.
+`tokens.json` is a **typed, aliased DTCG graph that is INPUT to a resolver**, not a flat hand-read
+lookup. Every consumable file (`tokens.css`, `tokens.tailwind.css`, `tokens.shadcn.css`, `DESIGN.md`
+frontmatter, `tokens.resolved.json`) is a generated projection — never hand-authored; Swift and Android
+projections are planned, not implemented (see tokens-projection.md "Planned targets").
 
-Grafted decisions: three tiers + portable groups under `semantic` (proposal 3); reverse-domain
-`com.design-extract` namespace declared in `meta.extensions` (proposal 3); `meta.defaults` facet
-backstop + the leaf-walker definition (proposal 2); the FAIL-on-duplicate-primitive anti-drift
-invariant (proposal 1); `captureScale` + per-mode elevation `strategy` (proposal 3) + `timeUnit`
-(proposal 1); the `tokens.resolved.json` de-aliased snapshot (proposal 3 — implemented as a tiered
-de-aliased copy, not the originally-proposed flat legacy bridge; see tokens-projection.md).
+Core decisions: three tiers plus portable groups under `semantic`; the reverse-domain
+`com.design-extract` namespace declared in `meta.extensions`; `meta.defaults` as the facet backstop and
+the leaf-walker definition; the FAIL-on-duplicate-primitive anti-drift invariant; `captureScale`,
+per-mode elevation `strategy` and `timeUnit`; and the `tokens.resolved.json` tiered de-aliased snapshot
+(see tokens-projection.md).
 
 ---
 
@@ -206,13 +204,16 @@ name list.
 **Detection-first (the spine of this profile): DETECT INTENT BEFORE DEFAULTING.** Every group below is
 something to *detect* from the captured app, not a fixed shape to impose. Default only when a thing is
 truly undetectable. Several groups are CONDITIONAL — present only when the app actually has the feature
-(`dataViz` only with charts; `categorical` only with a tag/status/syntax system; `material` only with
-translucent/code surfaces). Never force a conditional group, and never cram a status-enum or tag system
-into the four fixed `feedback` slots or into `dataViz`.
+(`categorical` only with a tag/status/syntax system; `material` only with translucent/code surfaces).
+Never force a conditional group, and never cram a status-enum or tag system into the four fixed
+`feedback` slots or into `dataViz`. `dataViz` is conditional in screenshot extraction: present when the
+screenshots show charts, absent (never forced) when they show none. Design generation (brand-design)
+emits `dataViz` by default — §6.3.
 
 ### primitive (literals only)
 - `color` — `neutral.{0…900}`; `brand.{ink, accent?}` (accent optional — see §6.2 brand model);
   `metric.{…}` (one hue per tracked chart series) — **CONDITIONAL: present only when the app has charts**;
+  `dataViz.{series,sequential,diverging}.<key>` + `dataVizDark.*` (the chart palettes, §6.3);
   `categorical.{…}` (one entry per tag/label/status/syntax category, each typically a `{bg, ink, dot?}`
   sub-group) — **CONDITIONAL: present only when such a system exists, and UNCAPPED** (see §6.1). `metric`
   and `categorical` are distinct hue families with different downstream homes.
@@ -224,8 +225,9 @@ into the four fixed `feedback` slots or into `dataViz`.
 - `color` — `text.*`, `surface.*`, `border.*`, `action.*`, `feedback.{success,warning,error,info}` (the
   FOUR fixed semantic slots — NEVER overload them with an open tag/status enum), `categorical.*` (the home
   for tags/labels/status-enums/syntax — N-ary, UNCAPPED; see §6.1), `dataViz.{track,gridline,axis,metric}`
-  **CONDITIONAL — present ONLY when the app has charts; ABSENT (never forced) for non-chart apps** (re-alias
-  the neutral ramp — kills the ECECF0 fork).
+  plus the palettes `dataViz.{series,sequential,diverging}` (§6.3) — **in screenshot extraction present
+  ONLY when the screenshots show charts, ABSENT (never forced) otherwise; design generation emits it by
+  default** (`track`/`gridline`/`axis` re-alias the neutral ramp — kills the ECECF0 fork).
 - `space` — named roles `screenMargin`, `cardInset`, `stack` (one-offs pulled OUT of the numeric scale).
 - `radius` (+ `cornerStyle`/`smoothing`) · `typography.*` composites · `elevation.*` shadow composites (+ per-mode `strategy`) · `gradient.*` stop arrays (+ `geometry`/`scale`).
 - **Portable scaffold groups** (the cross-platform layers a single phone can't show):
@@ -286,6 +288,38 @@ Detect which model the app uses BEFORE assigning `brand`:
   are a status / syntax / tag system. bevel-v2 keeps `brand.{ink, orange}` (accent-driven) and validates
   unchanged.
 
+### 6.3 `semantic.color.dataViz` palettes — series, sequential, diverging
+
+Three ordered palettes sit beside `track` / `gridline` / `axis` / `metric`. Each is a group of color
+leaves keyed by consecutive integers from `1`:
+
+| Group | Keys | Order | Use |
+| --- | --- | --- | --- |
+| `series.<n>` | `1…N`, default N = 6 | plotting order; `series.1` is the first series | categorical series: lines, bars, slices |
+| `sequential.<step>` | `1…N` | low → high magnitude | single-hue intensity: heatmaps, choropleths |
+| `diverging.<step>` | `1…N`, N odd | negative pole → neutral middle step → positive pole | values above / below a reference |
+
+- **Tier purity holds.** Each leaf aliases a primitive. The hues live under
+  `primitive.color.dataViz.{series,sequential,diverging}.<key>`, dark-mode hues under
+  `primitive.color.dataVizDark.*` (same pattern as `neutralDark`). A step whose hex already exists as a
+  primitive aliases that primitive instead of adding a copy — the duplicate-primitive gate fails on a
+  second leaf with the same hex. Typical cases: `series.1` is the accent itself, the diverging middle
+  step is a neutral.
+- **Per mode.** `modes/<mode>.json` re-points every palette leaf to that mode's hues (light and dark
+  each get their own set); a leaf left un-re-pointed shows the base hue on the other mode's surfaces.
+- **Confidence.** Hues sampled off rendered charts are `measured`. A producer that computes them from
+  the brand marks them `confidence: derived` and writes the derivation rule into the group's
+  `$description`, so a reviewer can recompute every step.
+- **Screenshot extraction** captures a palette only when the screenshots show it. A palette bound to
+  named metrics by legend labels stays `metric.*`; never invent `series` for an app whose charts the
+  capture does not show.
+- **Design generation** (brand-design) emits `dataViz` by default; which palettes it emits and how it
+  derives them are that producer's rules. `meta.categories.dataViz = notApplicable` records a product
+  without charts.
+- **Projection.** `tokens.css` carries every palette leaf as `--semantic-color-data-viz-<group>-<key>`.
+  The shadcn adapter wires `series.1…5` to `--chart-1…5` (tokens-projection.md); a `--chart-N` whose
+  series leaf is absent is not written at all.
+
 ---
 
 ## 7. Theming — modes & themes
@@ -302,6 +336,12 @@ Detect which model the app uses BEFORE assigning `brand`:
   `scope:capture-bound`) that the dark override binds to, so even dark stays tier-pure. A raw hex in
   an override is a flagged escape hatch (`scope:capture-bound`), not the norm.
 - A theme (`sleep`) is the same mechanism, delivered as a peer layer rather than a light/dark swap.
+- **Modes and named themes are mutually exclusive: both select through `data-theme`.** A manual mode is
+  `[data-theme="<mode>"]`, a named theme is `[data-theme="<theme>"]`, and an element holds one value —
+  a page that set `data-theme="dark"` cannot also show `sleep`. Theme deltas are computed against the
+  base (`meta.defaultMode`) set only and no mode × theme combination is generated, so a theme shown
+  under the OS dark preference (`@media (prefers-color-scheme: dark)`) mixes dark values with the
+  theme's base-mode values.
 
 Parity is enforced: each override's leaf-path set ⊆ base `semantic` leaf-path set (generalizes
 today's dark⊆light check via the leaf-walker).

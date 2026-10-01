@@ -2,11 +2,12 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { spawnSync } from 'node:child_process';
 import { requireValue as assert, nonempty, positive, localFile, readJSON, unique, verifyHash, checkImage, fontSignature, report, capture, finish, toolAvailable } from './lib/validation.mjs';
 
 const args = process.argv.slice(2);
 if (args.includes('--help')) {
-  console.log('Usage: check.sh [--deep] [--root SKILL_DIRECTORY]\nChecks local metadata, links, IDs, source hashes and image headers. --deep also decodes raster images with ImageMagick. No network requests.');
+  console.log('Usage: check.sh [--deep] [--root SKILL_DIRECTORY]\nChecks local metadata, links, IDs, source hashes, image headers and local absolute paths in text files. --deep also decodes raster images with ImageMagick. No network requests.');
   process.exit(0);
 }
 const rootIndex = args.indexOf('--root');
@@ -285,6 +286,25 @@ if (fs.existsSync(vendorRoot)) capture(result, 'vendored upstream', () => {
     count += j.files.length;
   }
   result.counts.vendored_files = count;
+});
+// Published text must not carry a macOS home path (the Users root, bare or as a file URL).
+// Scope: tracked plus untracked non-ignored files; the whole tree outside git.
+// Binary files are skipped: third-party originals keep their own embedded metadata.
+capture(result, 'local absolute paths', () => {
+  const listed = spawnSync('git', ['-C', root, 'ls-files', '-z', '--cached', '--others', '--exclude-standard'], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+  const files = listed.status === 0 ? listed.stdout.split('\0').filter(Boolean).map(file => path.join(root, file)) : walk(root).filter(file => !path.relative(root, file).split(path.sep).includes('.git'));
+  for (const file of files) {
+    if (!fs.existsSync(file) || !fs.statSync(file).isFile()) continue;
+    const bytes = fs.readFileSync(file);
+    if (bytes.subarray(0, 8000).includes(0)) continue;
+    bytes.toString('utf8').split('\n').forEach((line, index) => {
+      const hit = line.match(/(?:file:\/\/)?\/Users\/[^\s"'<>)]*/);
+      if (hit) {
+        result.errors.push({ context: 'local absolute paths', code: 'LOCAL_PATH', message: `${path.relative(root, file)}:${index + 1}: ${hit[0].slice(0, 120)}; write a path relative to the Skill root` });
+        result.result = 'FAIL';
+      }
+    });
+  }
 });
 result.counts.markdown_files = markdowns.length;
 result.counts.local_links = links;

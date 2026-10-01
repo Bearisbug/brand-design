@@ -92,6 +92,9 @@ theme's semantic vars through the fixed candidate chains in `SHADCN_MAP` (first 
 type-matching base leaf wins; a miss emits a `/* --x: no mappable token */` comment, never a
 guess), plus the standard Tailwind v4 `@theme inline` bridge and the `--radius-sm/md/lg/xl` calc
 ladder. `SHADCN_MAP` is a byte-stability contract like PATH_FLAT_COLORS — extend, don't reorder.
+`--chart-1…5` map to `semantic.color.dataViz.series.1…5` (tokens-schema.md §6.3) and are optional:
+a missing series leaf writes no line at all — no comment — so the adapter of a set without
+`dataViz.series` contains no chart line.
 A project imports exactly ONE adapter (tailwind OR shadcn), never both (each `@import`s tokens.css).
 
 **`DESIGN.md` frontmatter** (`--emit design-frontmatter`) — resolve the LIGHT semantic+component

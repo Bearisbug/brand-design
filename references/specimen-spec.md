@@ -1,6 +1,6 @@
 # 标准组件样例页（Specimen）规格 · v1.2
 
-2026-10-01 · 状态：内容待用户最终确认。brand-design 按本规格交付 tokens（BD-TOKEN-001），样例页由消费方（如 Quilt）按本规格渲染；brand-design 不渲染样例页。
+brand-design 按本规格交付 tokens（BD-TOKEN-001），样例页由消费方（如 Quilt）按本规格渲染；brand-design 不渲染样例页。
 
 ## 1. 定义
 
@@ -144,7 +144,7 @@
 
 ### 4.14 数据可视化
 
-- 分类色板（如 `--chart-1..5`）、顺序色、状态色，并标对比度。产品有图表时必做。
+- 分类色板（`dataViz.series`，shadcn 适配取前 5 色为 `--chart-1..5`）、顺序色（`dataViz.sequential`）、状态色，并标对比度；分类色逐色对四层表面 ≥ 3:1。默认必做；token 把 `dataViz` 声明为 notApplicable 时省略本节，在页面上标「不适用」。
 
 ### 4.15 本系统不用
 
@@ -177,7 +177,7 @@
 
 ## 6. 语义角色 → token 映射表
 
-样例页按角色取值，每套设计系统提供一张映射表。profile-2 token 的 `meta.roles` 就是这张表的机器可读形式：角色值为叶子路径，或 `{status, reason}`。以 Quilt 为例（Material 3 色键，含其 token 扩展计划新增的三个表面键）：
+样例页按角色取值，每套设计系统提供一张映射表。profile-2 token 的 `meta.roles` 就是这张表的机器可读形式：角色值为叶子路径，或 `{status, reason}`。以 Quilt 为例（消费方示例，随 Quilt 变化；Material 3 色键，含其 token 扩展计划新增的三个表面键）：
 
 | 角色 | token 键 |
 |---|---|

@@ -245,6 +245,10 @@ try {
   testSkill('vendor-edited-in-place','HASH_MISMATCH', (data,dir) => { const base=vendorFixture(data,dir); fs.appendFileSync(path.join(base,'scripts/tool.py'),'# local edit\n'); });
   testSkill('vendor-unlisted-file','VENDOR_UNLISTED', (data,dir) => { const base=vendorFixture(data,dir); write(base,'scripts/extra.py','print(1)\n'); });
   testSkill('vendor-missing-commit','VENDOR_SOURCE', (data,dir) => { const base=vendorFixture(data,dir), j=JSON.parse(fs.readFileSync(path.join(base,'SOURCE.json'),'utf8')); delete j.commit; write(base,'SOURCE.json',j); });
+  const homePath = ['', 'Users', 'someone', 'skill', 'specimen.html'].join('/');
+  testSkill('skill-local-file-url','LOCAL_PATH', (_,dir) => write(dir,'libraries/fonts/browser-verification.json',{ url:`file://${homePath}` }));
+  testSkill('skill-local-bare-path','LOCAL_PATH', (_,dir) => write(dir,'references/notes.md',`# Notes\nOpen ${homePath} in Edge.\n`));
+  testSkill('skill-local-path-in-binary-skipped','PASS', (_,dir) => write(dir,'libraries/styles/fixture/metadata.bin',Buffer.concat([Buffer.from([0,1,2]),Buffer.from(homePath)])));
 
   const example = path.join(here, '..', 'vendor', 'theme-extract', 'references', 'profile2-example');
   const generator = path.join(here, '..', 'vendor', 'theme-extract', 'scripts', 'build_tokens.py');
@@ -269,6 +273,39 @@ try {
   testTokens('tokens-contrast-rounding-band','CONTRAST_FAIL', dir => { editTokens(dir, j => { j.primitive.color.neutral['550']={$value:'#6C6D72'}; j.semantic.color.text.tertiary.$value='{primitive.color.neutral.550}'; }); generate(dir); });
   testTokens('tokens-roles-missing','ROLES_MISSING', dir => { editTokens(dir, j => { delete j.meta.roles; delete j.meta.categories; }); generate(dir); });
   testTokens('tokens-state-overlay-contrast','CONTRAST_FAIL', dir => { editTokens(dir, j => { j.primitive.opacity.pressed.$value = 0.3; }); generate(dir); });
+  {
+    const dir = path.join(temp, 'tokens-dataviz-series-both-modes');
+    fs.cpSync(example, dir, { recursive: true });
+    generate(dir);
+    const { exit_code, report } = invoke('check-tokens.mjs', [dir]);
+    const seriesPairs = Object.values(report.contrast?.modes || {}).map(m => m.pairs.filter(p => p.fg.startsWith('dataViz.series.')));
+    const pass = exit_code === 0 && seriesPairs.length === 2 && seriesPairs.every(pairs => pairs.length === 24 && pairs.every(p => p.threshold === 3 && p.pass));
+    results.push({ case:'tokens-dataviz-series-both-modes', expected:'PASS with 6 series x 4 surfaces at 3:1 in light and dark', actual:report.result, detected_codes:report.errors.map(error => error.code), pass });
+  }
+  testTokens('tokens-dataviz-light-low-contrast','DATAVIZ_CONTRAST', dir => { editTokens(dir, j => { j.primitive.color.dataViz.series['6'].$value = '#8FD3DC'; }); generate(dir); });
+  {
+    const dir = path.join(temp, 'tokens-dataviz-dark-low-contrast');
+    fs.cpSync(example, dir, { recursive: true });
+    editTokens(dir, j => { j.primitive.color.dataVizDark.series['2'].$value = '#5A3558'; });
+    generate(dir);
+    const { exit_code, report } = invoke('check-tokens.mjs', [dir]);
+    const messages = report.errors.filter(error => error.code === 'DATAVIZ_CONTRAST').map(error => error.message);
+    const pass = exit_code === 1 && messages.length > 0 && messages.every(m => m.startsWith('dark: dataViz.series.2 on '));
+    results.push({ case:'tokens-dataviz-dark-low-contrast', expected:'DATAVIZ_CONTRAST only in dark mode', actual:report.result, detected_codes:report.errors.map(error => error.code), pass });
+  }
+  testTokens('tokens-dataviz-marked-missing','DATAVIZ_REQUIRED', dir => { editTokens(dir, j => { j.meta.categories.dataViz = { status:'missing', reason:'not designed yet' }; }); generate(dir); });
+  testTokens('tokens-dataviz-series-incomplete','DATAVIZ_REQUIRED', dir => {
+    editTokens(dir, j => { delete j.semantic.color.dataViz.series['6']; });
+    const darkFile = path.join(dir,'modes','dark.json'), dark = JSON.parse(fs.readFileSync(darkFile,'utf8'));
+    delete dark.semantic.color.dataViz.series['6']; write(dir,'modes/dark.json',dark);
+    generate(dir);
+  });
+  testTokens('tokens-dataviz-not-applicable','PASS', dir => {
+    editTokens(dir, j => { j.meta.categories.dataViz = { status:'notApplicable', reason:'the user says the product has no charts' }; delete j.semantic.color.dataViz; });
+    const darkFile = path.join(dir,'modes','dark.json'), dark = JSON.parse(fs.readFileSync(darkFile,'utf8'));
+    delete dark.semantic.color.dataViz; write(dir,'modes/dark.json',dark);
+    generate(dir);
+  });
   {
     const dir = path.join(temp, 'tokens-minimal-overlay-advisory');
     fs.cpSync(example, dir, { recursive: true });

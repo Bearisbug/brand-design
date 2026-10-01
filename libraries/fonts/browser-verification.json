@@ -86,7 +86,10 @@
     }
   ],
   "title": "Tracefold / 迹序 · 字体与搭配样张",
-  "url": "file:///Users/bug/Documents/Projects/Harness/skills/brand-design/libraries/fonts/specimen.html",
+  "url": "libraries/fonts/specimen.html",
+  "url_relative_to": "Skill root; opened as a file URL from a local checkout",
+  "captured_on": "2026-09-11",
+  "browser_version": "Microsoft Edge 152 headless (userAgent Edg/152.0.0.0)",
   "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36 Edg/152.0.0.0",
   "desktop": {
     "clientWidth": 1440,
@@ -123,7 +126,7 @@
   },
   "console": {
     "messages": [],
-    "origin": "file:///Users/bug/Documents/Projects/Harness/skills/brand-design/libraries/fonts/specimen.html"
+    "origin": "libraries/fonts/specimen.html"
   },
   "assertions": {
     "threeLoadedFonts": true,
