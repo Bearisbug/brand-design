@@ -1,11 +1,11 @@
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset=".github/assets/logo-dark.svg">
-    <img src=".github/assets/logo.svg" alt="brand-design logo" width="120" height="120">
+    <img src=".github/assets/logo.svg" alt="visual-system logo" width="120" height="120">
   </picture>
 </p>
 
-<h1 align="center">brand-design · 品牌设计</h1>
+<h1 align="center">visual-system · 视觉系统</h1>
 
 <p align="center">用于 Logo 设计、品牌语言、可编辑品牌物料和开发视觉交接的 Agent Skill。</p>
 
@@ -13,7 +13,7 @@
 
 ---
 
-`brand-design` 约束 AI 编程 Agent 完成品牌设计工作：设计或迭代 Logo，从参考中提取视觉方法，验证字体，建立品牌语言与手册，制作可编辑的品牌物料，再把品牌参数以 tokens、字体配置和组件状态示例的形式交给开发。Agent 可以从新简报开始，也可以接着已有成果做，只执行你要求的阶段。
+`visual-system` 约束 AI 编程 Agent 完成品牌设计工作：设计或迭代 Logo，从参考中提取视觉方法，验证字体，建立品牌语言与手册，制作可编辑的品牌物料，再把品牌参数以 tokens、字体配置和组件状态示例的形式交给开发。Agent 可以从新简报开始，也可以接着已有成果做，只执行你要求的阶段。
 
 ## 覆盖的任务
 
@@ -81,10 +81,10 @@ AGENTS.md                维护本 Skill 时的规则
 Claude Code 全局可用：
 
 ```sh
-git clone --depth 1 https://github.com/Bearisbug/brand-design.git ~/.claude/skills/brand-design
+git clone --depth 1 https://github.com/Bearisbug/visual-system.git ~/.claude/skills/visual-system
 ```
 
-只在单个项目中使用时，克隆到 `<项目>/.claude/skills/brand-design`。其他支持 `SKILL.md` 格式的 Agent，把目录放进该 Agent 的 skills 目录即可。
+只在单个项目中使用时，克隆到 `<项目>/.claude/skills/visual-system`。其他支持 `SKILL.md` 格式的 Agent，把目录放进该 Agent 的 skills 目录即可。
 
 ## 依赖
 
@@ -101,7 +101,7 @@ git clone --depth 1 https://github.com/Bearisbug/brand-design.git ~/.claude/skil
 
 直接用自然语言告诉 Agent，例如：
 
-- 「用 brand-design 给研究者笔记应用 Tidepool 探索三个 Logo 方向。」
+- 「用 visual-system 给研究者笔记应用 Tidepool 探索三个 Logo 方向。」
 - 「方向 B v2 的造型不动，只试一版低饱和的绿色。」
 - 「给选定的标志建 SVG 母版，导出 SVG、PNG 和 favicon。」
 - 「把品牌手册转成网页项目的 design tokens 和字体配置，附按钮状态示例。」

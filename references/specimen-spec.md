@@ -1,6 +1,6 @@
 # 标准组件样例页（Specimen）规格 · v1.2
 
-brand-design 按本规格交付 tokens（BD-TOKEN-001），样例页由消费方（如 Quilt）按本规格渲染；brand-design 不渲染样例页。
+visual-system 按本规格交付 tokens（BD-TOKEN-001），样例页由消费方（如 Quilt）按本规格渲染；visual-system 不渲染样例页。
 
 ## 1. 定义
 
@@ -16,7 +16,7 @@ brand-design 按本规格交付 tokens（BD-TOKEN-001），样例页由消费方
 
 样例页只能展示 token 里有的东西；下表是一套设计系统能被样例页完整展示的最低 token 集合。缺的类别在页面上显式标「缺」，禁止在样例页里用字面值补。
 
-类别键与 token 格式 `design-extract/profile-2` 的 `meta.categories` 一致（theme-extract `tokens-schema.md` §10；brand-design 内的副本在 `vendor/theme-extract/references/tokens-schema.md`），每个类别在 token 里声明为 present / notApplicable / missing。
+类别键与 token 格式 `design-extract/profile-2` 的 `meta.categories` 一致（theme-extract `tokens-schema.md` §10；visual-system 内的副本在 `vendor/theme-extract/references/tokens-schema.md`），每个类别在 token 里声明为 present / notApplicable / missing。
 
 | 类别键 | 类别 | 必含字段 | 说明 |
 |---|---|---|---|

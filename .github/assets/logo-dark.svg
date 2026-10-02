@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="title">
-  <title id="title">brand-design</title>
+  <title id="title">visual-system</title>
   <path fill="#FAFAFA" fill-rule="evenodd" d="M96 98A50 50 0 0 1 196 98V176H288A128 128 0 0 1 416 304V336A128 128 0 0 1 288 464H96Z M246 264H270A50 50 0 0 1 320 314V326A50 50 0 0 1 270 376H246A50 50 0 0 1 196 326V314A50 50 0 0 1 246 264Z"/>
   <rect x="232" y="294" width="52" height="52" rx="22" fill="#BD816B"/>
 </svg>

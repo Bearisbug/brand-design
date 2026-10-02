@@ -13,7 +13,7 @@ if (args.includes('--help')) {
 const rootIndex = args.indexOf('--root');
 const root = path.resolve(rootIndex >= 0 ? args[rootIndex + 1] || '' : path.join(path.dirname(fileURLToPath(import.meta.url)), '..'));
 const deep = args.includes('--deep');
-const result = report(deep ? 'brand-design skill: structural, hashes, image headers and raster decoding' : 'brand-design skill: structural, hashes and image headers');
+const result = report(deep ? 'visual-system skill: structural, hashes, image headers and raster decoding' : 'visual-system skill: structural, hashes and image headers');
 const known = new Set(['--deep', '--root']);
 capture(result, 'arguments', () => args.forEach((arg, i) => assert(known.has(arg) || i === rootIndex + 1 && rootIndex >= 0, 'ARGUMENT', `Unknown argument: ${arg}`)));
 capture(result, 'root argument', () => assert(rootIndex < 0 || nonempty(args[rootIndex + 1]) && !args[rootIndex + 1].startsWith('--'), 'ARGUMENT', '--root requires a directory path'));
@@ -92,7 +92,7 @@ for (const file of markdowns) capture(result, path.relative(root, file), () => {
 capture(result, 'Skill entry', () => {
   const file = localFile(root, 'SKILL.md');
   const fields = frontmatter(file, ['name', 'description']);
-  assert(fields.name === 'brand-design', 'SKILL_NAME', 'SKILL.md name must be brand-design');
+  assert(fields.name === 'visual-system', 'SKILL_NAME', 'SKILL.md name must be visual-system');
 });
 capture(result, 'rule catalog', () => {
   const catalog = localFile(root, 'references/00-catalog.md');

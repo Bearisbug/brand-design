@@ -271,7 +271,7 @@ if (scratch) capture(result, 'dataViz distinctness', () => {
 //   - deltaE00 is CIEDE2000 (CIE 142-2001) as written out in Sharma, Wu & Dalal, "The CIEDE2000
 //     color-difference formula: implementation notes, supplementary test data, and mathematical
 //     observations", Color Research & Application 30(1), 2005; deltaE00() reproduces their test pairs.
-//   - Threshold 3 comes from this skill's regression judgments (Harness evals/brand-design.md,
+//   - Threshold 3 comes from this skill's regression judgments (Harness evals/visual-system.md,
 //     REG-021): white text on a blue primary fill with hover/pressed at deltaE00 3.40 was judged
 //     distinguishable side by side; 1.38-1.69 was judged indistinguishable.
 // The specimen spec's reference opacities are a starting point, not fixed values; each mode may

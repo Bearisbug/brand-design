@@ -1,16 +1,16 @@
-# brand-design · 维护规则
+# visual-system · 维护规则
 
 ## 适用范围与入口
 
-本文件约束 `skills/brand-design/` 内 Skill 指令、规则卡、风格包、字体档案、Prompt 模板、应用模板、脚本和校验器的创建与更新。只有维护这些内容时使用本文件；执行用户的品牌设计任务以 `SKILL.md` 为入口。
+本文件约束 `skills/visual-system/` 内 Skill 指令、规则卡、风格包、字体档案、Prompt 模板、应用模板、脚本和校验器的创建与更新。只有维护这些内容时使用本文件；执行用户的品牌设计任务以 `SKILL.md` 为入口。
 
 遵循运行时指令、用户当前要求及仓库根 `AGENTS.md` 的优先级。本文件补充本技能的维护约束，不自行提升权限。用户已明确的范围和选择持续有效；只有缺失信息会改变本轮维护结果时才提出具体问题，不重复请求已获得的授权。
 
-维护开始时，先读取目标文件、索引、被引用资源与调用方。在 Harness 仓库中先查阅 `docs/brand-design-skill-architecture.md`、`docs/brand-design-skill-research.md` 及已有的 `evals/brand-design.md`；文件未建立时不能声称已读取。识别当前已有内容和规划内容，禁止把规划目录、候选条目或未执行的验证写成已完成。
+维护开始时，先读取目标文件、索引、被引用资源与调用方。在 Harness 仓库中先查阅 `docs/brand-design-skill-architecture.md`、`docs/brand-design-skill-research.md` 及已有的 `evals/visual-system.md`；文件未建立时不能声称已读取。识别当前已有内容和规划内容，禁止把规划目录、候选条目或未执行的验证写成已完成。
 
 ## 名称与职责
 
-- 稳定名称为 `brand-design`，中文名称为「品牌设计」；目录名与 `SKILL.md` frontmatter 的 `name` 必须一致。未经用户要求不得改名。
+- 稳定名称为 `visual-system`，中文名称为「视觉系统」；目录名与 `SKILL.md` frontmatter 的 `name` 必须一致。未经用户要求不得改名。
 - 主流程覆盖 Logo 设计、参考风格提取、字体搭配、品牌设计语言、素材交付与开发视觉交接；允许只执行用户请求的阶段。
 - 开发视觉交接负责 tokens、字体与资产配置、组件视觉和状态示例。业务需求、页面功能架构、API 与产品代码实现由对应任务承接。
 - 保持四类资源库职责清晰：Logo 与品牌风格、字体与搭配、Prompt 方法与模板、品牌应用模板。
@@ -26,7 +26,7 @@
 | 四类库数据 | 建议分别用 `libraries/styles/`、`libraries/fonts/`、`libraries/prompts/`、`libraries/applications/`；首次入库时建立索引和字段约定，再保持稳定 |
 | 确定性处理 | `scripts/`；只有重复操作或可靠性收益明确时新增脚本，依赖与执行方式必须有说明 |
 | 上游副本 | `vendor/<上游>/`；原样复制，`SOURCE.json` 登记上游提交号与逐文件 SHA-256，`check.sh` 校验。格式或生成器问题回上游修复，再整体替换为新提交并重跑 `scripts/self-test.mjs`；禁止就地修改 |
-| 回归与拒因 | Harness 的 `evals/brand-design.md`、`skill-tests/brand-design/`；不随技能发布 |
+| 回归与拒因 | Harness 的 `evals/visual-system.md`、`skill-tests/visual-system/`；不随技能发布 |
 | 品牌项目产物 | 用户项目指定目录；不得直接混入通用资源库 |
 
 表中路径是内容落位约定，只在有实际内容时创建。发布资源的链接必须在 Skill 根目录内可解析；仓库研究与优化档案只用于维护，不能成为已发布 Skill 执行品牌任务的外部文件依赖。

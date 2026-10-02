@@ -21,7 +21,7 @@ node scripts/self-test.mjs --output /absolute/path/to/validation-results.json
 
 默认检查以下项目：
 
-- `SKILL.md` 的 YAML 顶层 `name`、`description`；name 必须为 `brand-design`。`STYLE.md` 必须有 `id`、`name`、`version`、`status`，并与目录和来源清单一致。检查器只解析所需的顶层标量，不是完整 YAML 语法检查器。
+- `SKILL.md` 的 YAML 顶层 `name`、`description`；name 必须为 `visual-system`。`STYLE.md` 必须有 `id`、`name`、`version`、`status`，并与目录和来源清单一致。检查器只解析所需的顶层标量，不是完整 YAML 语法检查器。
 - Markdown 代码围栏配对、代码围栏外的行内链接与引用式链接定义。相对路径以所在 Markdown 为基准，必须存在且真实路径留在 Skill 内；Markdown anchor 必须存在。外部 URL 不发请求；代码样例、普通反引号中的路径说明、HTML/CSS/JS 内的资源引用不属于此项。
 - 规则以 `## BD-类别-三位数字 · 标题` 定义（类别为大写字母开头的大写字母/数字串），紧前一行必须有同名小写显式 HTML anchor。每卡必须有非空的“触发、规则、产物、验证”四个字段。catalog 每张卡登记一次，链接文本含 ID，链接指到唯一卡文件与 anchor。入口与 references 中使用的具体 BD ID 必须有定义。
 - 风格数量从实际 STYLE 目录和 INDEX 链接推导，不固定包数。`sources.json` 的 `schema_version: 1`、style ID、asset/sample/group 唯一 ID、引用、真实 SHA-256、文件格式与尺寸必须一致。兼容 `members` / `sample_ids` 分组、独立 `overview`、截图原图和远程原图；preview 未单列尺寸时沿用原图尺寸。

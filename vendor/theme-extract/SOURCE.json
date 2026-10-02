@@ -1,8 +1,8 @@
 {
   "upstream": "https://github.com/Bearisbug/theme-extract",
-  "commit": "9b85019cc8d9f61049990e6a23d18d0c5059cbdb",
+  "commit": "d0da22e9334e087b28885ecf7fc0823140a71a33",
   "copied": "2026-10-02",
-  "license": "Same author as brand-design; redistributed under this repository's MIT license.",
+  "license": "Same author as visual-system; redistributed under this repository's MIT license.",
   "note": "Verbatim copies. Update by copying the same paths from a newer upstream commit and refreshing commit/sha256; never edit in place.",
   "files": [
     {
@@ -11,7 +11,7 @@
     },
     {
       "path": "references/profile2-example/tokens.json",
-      "sha256": "b889e21dfd74c28a7c0363d73fab2fc493a76cdff508aa45a7c3ad980bad7e0e"
+      "sha256": "7f1c9425cd8ccae153c16d0188b393fe07eeefe8fe1392725fcb138b030fecbc"
     },
     {
       "path": "references/tokens-projection.md",
@@ -19,7 +19,7 @@
     },
     {
       "path": "references/tokens-schema.md",
-      "sha256": "0a2a0a7f02ce6e001d8e7f09ca6c1b6a8f251f0ff98aca518dcde4613e6b9b3c"
+      "sha256": "c861b5b774ce614a58cf5c639402069a0c346af23a41299d109b88b1d85a595e"
     },
     {
       "path": "scripts/build_tokens.py",

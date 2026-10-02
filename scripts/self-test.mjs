@@ -73,7 +73,7 @@ function replaceHtml(j, dir, source) {
   j.files.find(record => record.path === 'source/layout.html').sha256 = sha256(path.join(dir,'source/layout.html'));
 }
 function skill(dir) {
-  write(dir, 'SKILL.md', '---\nname: brand-design\ndescription: Fixture entry for validation tests.\n---\n# Fixture\n[Catalog](references/00-catalog.md)\n');
+  write(dir, 'SKILL.md', '---\nname: visual-system\ndescription: Fixture entry for validation tests.\n---\n# Fixture\n[Catalog](references/00-catalog.md)\n');
   write(dir, 'references/CONVENTIONS.md', '# Fixture conventions\n');
   write(dir, 'references/00-catalog.md', '# Catalog\n[BD-TEST-001](rules.md#bd-test-001)\n');
   write(dir, 'references/rules.md', '# Rules\n<a id="bd-test-001"></a>\n## BD-TEST-001 · Fixture\n- 触发：Fixture input.\n- 规则：Fixture rule.\n- 产物：Fixture output.\n- 验证：Fixture verification.\n');
@@ -189,9 +189,9 @@ try {
   });
   testHtml('release-html-not-run-is-not-ready', 'PASS', j => { j.checks.fixture={status:'not_run',reason:'Browser rendering has not been run for this mechanical fixture.'}; }, report => assert(report.ready_for_delivery === false,'READINESS','HTML not_run must not be ready'));
   testSkill('skill-schema-variants-and-catalog','PASS');
-  testSkill('skill-bad-frontmatter','FRONTMATTER_FIELD', (_,dir) => write(dir,'SKILL.md','---\nname: brand-design\n---\n# Fixture\n'));
-  testSkill('skill-empty-block-description','FRONTMATTER_FIELD', (_,dir) => write(dir,'SKILL.md','---\nname: brand-design\ndescription: |\n---\n# Fixture\n'));
-  testSkill('skill-multiline-description','PASS', (_,dir) => write(dir,'SKILL.md','---\nname: brand-design\ndescription: >\n  Fixture description.\n  Second line.\n---\n# Fixture\n'));
+  testSkill('skill-bad-frontmatter','FRONTMATTER_FIELD', (_,dir) => write(dir,'SKILL.md','---\nname: visual-system\n---\n# Fixture\n'));
+  testSkill('skill-empty-block-description','FRONTMATTER_FIELD', (_,dir) => write(dir,'SKILL.md','---\nname: visual-system\ndescription: |\n---\n# Fixture\n'));
+  testSkill('skill-multiline-description','PASS', (_,dir) => write(dir,'SKILL.md','---\nname: visual-system\ndescription: >\n  Fixture description.\n  Second line.\n---\n# Fixture\n'));
   testSkill('skill-fenced-broken-link-is-ignored','PASS', (_,dir) => fs.appendFileSync(path.join(dir,'SKILL.md'),'\n```md\n[example](missing.md)\n```\n'));
   testSkill('skill-broken-link','FILE_MISSING', (_,dir) => fs.appendFileSync(path.join(dir,'SKILL.md'),'\n[missing](missing.md)\n'));
   testSkill('skill-duplicate-rule','CARD_DUPLICATE', (_,dir) => fs.appendFileSync(path.join(dir,'references/rules.md'),'\n## BD-TEST-001 · Duplicate\n'));

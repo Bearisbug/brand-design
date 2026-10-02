@@ -207,7 +207,7 @@ truly undetectable. Several groups are CONDITIONAL — present only when the app
 (`categorical` only with a tag/status/syntax system; `material` only with translucent/code surfaces).
 Never force a conditional group, and never cram a status-enum or tag system into the four fixed
 `feedback` slots or into `dataViz`. `dataViz` is conditional in screenshot extraction: present when the
-screenshots show charts, absent (never forced) when they show none. Design generation (brand-design)
+screenshots show charts, absent (never forced) when they show none. Design generation (visual-system)
 emits `dataViz` by default — §6.3.
 
 ### primitive (literals only)
@@ -332,7 +332,7 @@ leaves keyed by consecutive integers from `1`:
 - **Screenshot extraction** captures a palette only when the screenshots show it. A palette bound to
   named metrics by legend labels stays `metric.*`; never invent `series` for an app whose charts the
   capture does not show.
-- **Design generation** (brand-design) emits `dataViz` by default; which palettes it emits and how it
+- **Design generation** (visual-system) emits `dataViz` by default; which palettes it emits and how it
   derives them are that producer's rules. `meta.categories.dataViz = notApplicable` records a product
   without charts.
 - **Projection.** `tokens.css` carries every palette leaf as `--semantic-color-data-viz-<group>-<key>`.
@@ -409,7 +409,7 @@ every feature below is optional, and a set that declares none of them builds byt
 profile-1. Declaring any of them while `meta.spec` still names profile-1 is a build ERR
 (`[profile]`). The features exist so that one token set can state, machine-readably, whether it
 covers a complete design system — the categories a component specimen page or a design-tool
-importer needs — and so producers other than screenshot extraction (e.g. brand-design) emit the
+importer needs — and so producers other than screenshot extraction (e.g. visual-system) emit the
 same format. Leaf names stay free; fixed vocabulary lives only in `meta.roles` and
 `meta.categories`. Reference example: [profile2-example/](profile2-example/tokens.json) — a full-depth set
 declaring all 14 categories, with a dark mode.

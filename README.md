@@ -1,11 +1,11 @@
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset=".github/assets/logo-dark.svg">
-    <img src=".github/assets/logo.svg" alt="brand-design logo" width="120" height="120">
+    <img src=".github/assets/logo.svg" alt="visual-system logo" width="120" height="120">
   </picture>
 </p>
 
-<h1 align="center">brand-design</h1>
+<h1 align="center">visual-system</h1>
 
 <p align="center">An Agent Skill for logo design, brand language, editable brand assets and developer visual handoff.</p>
 
@@ -13,7 +13,7 @@
 
 ---
 
-`brand-design` guides an AI coding agent through brand work: designing or iterating a logo, extracting a visual method from references, verifying fonts, writing a brand language and guidelines, producing editable brand materials, and handing brand parameters to developers as tokens, font config and component state examples. The agent can start from a new brief or from work that already exists, and runs only the stages you ask for.
+`visual-system` guides an AI coding agent through brand work: designing or iterating a logo, extracting a visual method from references, verifying fonts, writing a brand language and guidelines, producing editable brand materials, and handing brand parameters to developers as tokens, font config and component state examples. The agent can start from a new brief or from work that already exists, and runs only the stages you ask for.
 
 The skill text is written in Chinese. You can talk to the agent in any language.
 
@@ -83,10 +83,10 @@ The repository is about 140 MB, mostly reference images and the Noto Sans SC fon
 Claude Code, available in every project:
 
 ```sh
-git clone --depth 1 https://github.com/Bearisbug/brand-design.git ~/.claude/skills/brand-design
+git clone --depth 1 https://github.com/Bearisbug/visual-system.git ~/.claude/skills/visual-system
 ```
 
-Claude Code, one project only: clone into `<project>/.claude/skills/brand-design`. For other agents that read `SKILL.md` skills, put the folder in that agent's skills directory.
+Claude Code, one project only: clone into `<project>/.claude/skills/visual-system`. For other agents that read `SKILL.md` skills, put the folder in that agent's skills directory.
 
 ## Requirements
 
@@ -103,7 +103,7 @@ Claude Code, one project only: clone into `<project>/.claude/skills/brand-design
 
 Ask the agent in plain language, for example:
 
-- "Use brand-design to explore three logo directions for Tidepool, a note-taking app for researchers."
+- "Use visual-system to explore three logo directions for Tidepool, a note-taking app for researchers."
 - "Keep the geometry of direction B v2 and only try a muted green palette."
 - "Build the SVG master for the selected mark and export the SVG, PNG and favicon set."
 - "Turn our brand guide into design tokens and a font config for our web app, with button state examples."
