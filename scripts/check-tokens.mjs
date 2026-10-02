@@ -16,12 +16,14 @@ Mechanical checks for a profile-2 token set (see references/system.md#bd-token-0
   3. chart series distinctness per mode (DATAVIZ_DISTINCT): OKLCH lightness band and chroma floor,
      adjacent series under simulated protanopia/deuteranopia and under normal vision, and distance
      from the feedback colors (thresholds in the comment above the check);
-  4. at full depth, dataViz is present with series 1..6 or notApplicable, never missing;
-  5. meta.notUsed lint over the --lint CSS/HTML files.
+  4. state-layer distinctness per mode (STATE_DISTINCT): on every surface that carries a state
+     layer, the hover and pressed composites are at least CIEDE2000 deltaE00 3 apart;
+  5. at full depth, dataViz is present with series 1..6 or notApplicable, never missing;
+  6. meta.notUsed lint over the --lint CSS/HTML files.
 Requires uv. No network. Does not prove visual quality, font loading or component behavior.`);
   process.exit(0);
 }
-const result = report('design-system tokens: generator freshness, per-mode role and chart-series contrast, chart-series distinctness, dataViz coverage, notUsed lint');
+const result = report('design-system tokens: generator freshness, per-mode role and chart-series contrast, chart-series distinctness, state-layer distinctness, dataViz coverage, notUsed lint');
 const outIndex = args.indexOf('--out');
 const lintIndex = args.indexOf('--lint');
 const dirArg = args[0];
@@ -259,6 +261,76 @@ if (scratch) capture(result, 'dataViz distinctness', () => {
     modes[mode] = { band: bandName, series: keys.length, worst_adjacent_cvd: round1(worstCvd), worst_adjacent_normal: round1(worstNormal), nearest_feedback: Number.isFinite(nearestFeedback) ? round1(nearestFeedback) : null };
   }
   result.dataviz_distinct = modes;
+});
+
+// State-layer distinctness (STATE_DISTINCT; BD-TOKEN-001 step 7). On every surface that carries a
+// state layer (the STATE_PAIRS above: the layer is the text's own color, i.e. currentColor, over
+// the fill), the hover and pressed composites stay at least deltaE00 3 apart in every mode.
+//   - Composite in sRGB and round each channel to 8 bits, as the browser paints it; then sRGB
+//     (IEC 61966-2-1) -> XYZ -> CIELAB with the D65 white.
+//   - deltaE00 is CIEDE2000 (CIE 142-2001) as written out in Sharma, Wu & Dalal, "The CIEDE2000
+//     color-difference formula: implementation notes, supplementary test data, and mathematical
+//     observations", Color Research & Application 30(1), 2005; deltaE00() reproduces their test pairs.
+//   - Threshold 3 comes from this skill's regression judgments (Harness evals/brand-design.md,
+//     REG-021): white text on a blue primary fill with hover/pressed at deltaE00 3.40 was judged
+//     distinguishable side by side; 1.38-1.69 was judged indistinguishable.
+// The specimen spec's reference opacities are a starting point, not fixed values; each mode may
+// point semantic.state.* at its own opacities. Strictness follows the overlay contrast rows: the
+// primary button at every depth, the other surfaces at full depth, advisory at minimal depth.
+const DE00_FLOOR = 3;
+function cielab(c) {
+  const [r, g, b] = linearRGB(c);
+  const xyz = [0.4124564 * r + 0.3575761 * g + 0.1804375 * b, 0.2126729 * r + 0.7151522 * g + 0.0721750 * b, 0.0193339 * r + 0.1191920 * g + 0.9503041 * b];
+  const [fx, fy, fz] = xyz.map((t, i) => t / [0.95047, 1, 1.08883][i]).map(t => t > 216 / 24389 ? Math.cbrt(t) : (24389 / 27 * t + 16) / 116);
+  return [116 * fy - 16, 500 * (fx - fy), 200 * (fy - fz)];
+}
+function deltaE00([L1, a1, b1], [L2, a2, b2]) {
+  const rad = Math.PI / 180, pow7 = c => c ** 7 / (c ** 7 + 25 ** 7);
+  const G = 0.5 * (1 - Math.sqrt(pow7((Math.hypot(a1, b1) + Math.hypot(a2, b2)) / 2)));
+  const ap1 = (1 + G) * a1, ap2 = (1 + G) * a2, C1 = Math.hypot(ap1, b1), C2 = Math.hypot(ap2, b2);
+  const hue = (b, a) => a === 0 && b === 0 ? 0 : (Math.atan2(b, a) / rad + 360) % 360;
+  const h1 = hue(b1, ap1), h2 = hue(b2, ap2);
+  let dh = 0, hMean = h1 + h2;
+  if (C1 * C2 !== 0) {
+    dh = h2 - h1 > 180 ? h2 - h1 - 360 : h2 - h1 < -180 ? h2 - h1 + 360 : h2 - h1;
+    hMean = Math.abs(h1 - h2) <= 180 ? hMean / 2 : hMean < 360 ? (hMean + 360) / 2 : (hMean - 360) / 2;
+  }
+  const dL = L2 - L1, dC = C2 - C1, dH = 2 * Math.sqrt(C1 * C2) * Math.sin(dh * rad / 2);
+  const LMean = (L1 + L2) / 2, CMean = (C1 + C2) / 2;
+  const T = 1 - 0.17 * Math.cos((hMean - 30) * rad) + 0.24 * Math.cos(2 * hMean * rad) + 0.32 * Math.cos((3 * hMean + 6) * rad) - 0.20 * Math.cos((4 * hMean - 63) * rad);
+  const SL = 1 + 0.015 * (LMean - 50) ** 2 / Math.sqrt(20 + (LMean - 50) ** 2), SC = 1 + 0.045 * CMean, SH = 1 + 0.015 * CMean * T;
+  const RT = -Math.sin(2 * 30 * Math.exp(-(((hMean - 275) / 25) ** 2)) * rad) * 2 * Math.sqrt(pow7(CMean));
+  return Math.sqrt((dL / SL) ** 2 + (dC / SC) ** 2 + (dH / SH) ** 2 + RT * (dC / SC) * (dH / SH));
+}
+if (scratch) capture(result, 'state distinctness', () => {
+  const roles = tree.meta?.roles || {};
+  const modes = {};
+  for (const file of fs.readdirSync(scratch).filter(name => /^tokens\.resolved(\.[\w-]+)?\.json$/.test(name)).sort()) {
+    const resolved = readJSON(path.join(scratch, file));
+    const mode = resolved.meta?.resolvedMode || tree.meta?.defaultMode || 'base';
+    const valueOf = role => typeof roles[role] === 'string' ? leafAt(resolved, roles[role])?.$value : undefined;
+    const roleColor = role => parseColor(valueOf(role));
+    const hover = valueOf('state.hover'), pressed = valueOf('state.pressed'), base = roleColor('surface.default');
+    if (typeof hover !== 'number' || typeof pressed !== 'number' || !base) continue;
+    const rows = [];
+    for (const [fgRole, bgRole] of STATE_PAIRS) {
+      const fg = roleColor(fgRole), bgRaw = roleColor(bgRole);
+      if (!fg || !bgRaw) continue;
+      const bg = bgRaw.a < 1 ? over(bgRaw, base) : bgRaw;
+      const layer = fg.a < 1 ? over(fg, bg) : fg;
+      const paint = alpha => { const c = over({ ...layer, a: alpha }, bg); return { r: Math.round(c.r), g: Math.round(c.g), b: Math.round(c.b), a: 1 }; };
+      const exact = deltaE00(cielab(paint(hover)), cielab(paint(pressed)));
+      const row = { fg: fgRole, bg: bgRole, hover, pressed, deltaE00: Math.floor(exact * 100) / 100, threshold: DE00_FLOOR, pass: exact >= DE00_FLOOR };
+      const strict = fgRole === 'onAccent' || result.depth === 'full';
+      if (!strict) row.advisory = true;
+      const message = `${mode}: ${fgRole} state layer on ${bgRole}: hover ${hover} vs pressed ${pressed} is deltaE00 ${row.deltaE00} < ${DE00_FLOOR}`;
+      if (!row.pass && strict) { result.errors.push({ context: 'state', code: 'STATE_DISTINCT', message: `${message}; widen the per-mode opacities within 4.5:1, then derive an interaction color (BD-TOKEN-001 step 7)` }); result.result = 'FAIL'; }
+      if (!row.pass && !strict) result.warnings.push(`advisory (minimal depth): ${message}`);
+      rows.push(row);
+    }
+    modes[mode] = rows;
+  }
+  result.state_distinct = modes;
 });
 
 // Full depth derives chart colors from the accent by default; only a product the

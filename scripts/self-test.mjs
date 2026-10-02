@@ -253,16 +253,19 @@ try {
   const example = path.join(here, '..', 'vendor', 'theme-extract', 'references', 'profile2-example');
   const generator = path.join(here, '..', 'vendor', 'theme-extract', 'scripts', 'build_tokens.py');
   const generate = dir => run('uv', ['run','--quiet','python',generator,dir,'--emit','all'], { timeout: 120000 });
+  const editTokens = (dir, fn) => { const file=path.join(dir,'tokens.json'), j=JSON.parse(fs.readFileSync(file,'utf8')); fn(j); write(dir,'tokens.json',j); };
+  // The example keeps the specimen spec's reference opacities (hover 0.08, pressed 0.10), which fail
+  // STATE_DISTINCT; token fixtures start from a copy whose hover/pressed pass every gate in both modes.
+  const seed = dir => { fs.cpSync(example, dir, { recursive: true }); editTokens(dir, j => { j.primitive.opacity.hover.$value = 0.04; j.primitive.opacity.pressed.$value = 0.11; }); };
   function testTokens(name, expected, mutate = () => {}, lint) {
     const dir = path.join(temp, name);
-    fs.cpSync(example, dir, { recursive: true });
+    seed(dir);
     generate(dir);
     const extra = mutate(dir) || [];
     const { exit_code, report } = invoke('check-tokens.mjs', [dir, ...(lint ? ['--lint', ...extra] : [])]);
     const codes = report.errors.map(error => error.code);
     results.push({ case:name, expected, actual:report.result, detected_codes:codes, pass: expected === 'PASS' ? exit_code === 0 && report.result === 'PASS' : exit_code === 1 && codes.includes(expected) });
   }
-  const editTokens = (dir, fn) => { const file=path.join(dir,'tokens.json'), j=JSON.parse(fs.readFileSync(file,'utf8')); fn(j); write(dir,'tokens.json',j); };
   testTokens('tokens-full-example','PASS');
   testTokens('tokens-hand-edited-css','GENERATED_STALE', dir => fs.appendFileSync(path.join(dir,'tokens.css'),'.x{color:red}\n'));
   testTokens('tokens-dark-snapshot-missing','GENERATED_MISSING', dir => fs.unlinkSync(path.join(dir,'tokens.resolved.dark.json')));
@@ -275,7 +278,7 @@ try {
   testTokens('tokens-state-overlay-contrast','CONTRAST_FAIL', dir => { editTokens(dir, j => { j.primitive.opacity.pressed.$value = 0.3; }); generate(dir); });
   {
     const dir = path.join(temp, 'tokens-dataviz-series-both-modes');
-    fs.cpSync(example, dir, { recursive: true });
+    seed(dir);
     generate(dir);
     const { exit_code, report } = invoke('check-tokens.mjs', [dir]);
     const seriesPairs = Object.values(report.contrast?.modes || {}).map(m => m.pairs.filter(p => p.fg.startsWith('dataViz.series.')));
@@ -285,7 +288,7 @@ try {
   testTokens('tokens-dataviz-light-low-contrast','DATAVIZ_CONTRAST', dir => { editTokens(dir, j => { j.primitive.color.dataViz.series['6'].$value = '#8FD3DC'; }); generate(dir); });
   {
     const dir = path.join(temp, 'tokens-dataviz-dark-low-contrast');
-    fs.cpSync(example, dir, { recursive: true });
+    seed(dir);
     editTokens(dir, j => { j.primitive.color.dataVizDark.series['2'].$value = '#5A3558'; });
     generate(dir);
     const { exit_code, report } = invoke('check-tokens.mjs', [dir]);
@@ -295,7 +298,7 @@ try {
   }
   {
     const dir = path.join(temp, 'tokens-dataviz-distinct-both-modes');
-    fs.cpSync(example, dir, { recursive: true });
+    seed(dir);
     generate(dir);
     const { exit_code, report } = invoke('check-tokens.mjs', [dir]);
     const modes = report.dataviz_distinct || {};
@@ -306,7 +309,7 @@ try {
   }
   function testDistinct(name, mutate, check) {
     const dir = path.join(temp, name);
-    fs.cpSync(example, dir, { recursive: true });
+    seed(dir);
     mutate(dir);
     generate(dir);
     const { exit_code, report } = invoke('check-tokens.mjs', [dir]);
@@ -325,7 +328,7 @@ try {
   testDistinct('tokens-dataviz-low-chroma', lightSeries({ 6:'#4F5B6E' }), m => m.some(x => x.startsWith('light: dataViz.series.6 OKLCH C')));
   {
     const dir = path.join(temp, 'tokens-dataviz-cvd-warning-band');
-    fs.cpSync(example, dir, { recursive: true });
+    seed(dir);
     lightSeries({ 6:'#027FBB' })(dir);
     generate(dir);
     const { exit_code, report } = invoke('check-tokens.mjs', [dir]);
@@ -347,7 +350,7 @@ try {
   });
   {
     const dir = path.join(temp, 'tokens-minimal-overlay-advisory');
-    fs.cpSync(example, dir, { recursive: true });
+    seed(dir);
     editTokens(dir, j => { delete j.meta.categories; j.primitive.opacity.pressed.$value = 0.3; });
     generate(dir);
     const { exit_code, report } = invoke('check-tokens.mjs', [dir]);
@@ -355,6 +358,35 @@ try {
     const pass = exit_code === 1 && messages.length > 0 && messages.every(m => m.includes('onAccent on accent+pressed')) && report.warnings.some(w => w.includes('advisory') && w.includes('accent on surface.default+pressed'));
     results.push({ case:'tokens-minimal-overlay-advisory', expected:'CONTRAST_FAIL only for onAccent, others advisory', actual:report.result, detected_codes:report.errors.map(error => error.code), pass });
   }
+  function testState(name, expected, prepare, check) {
+    const dir = path.join(temp, name);
+    prepare(dir);
+    generate(dir);
+    const { exit_code, report } = invoke('check-tokens.mjs', [dir]);
+    const messages = report.errors.filter(error => error.code === 'STATE_DISTINCT').map(error => error.message);
+    const outcome = expected === 'PASS' ? exit_code === 0 && report.result === 'PASS' : exit_code === 1 && messages.length > 0;
+    results.push({ case:name, expected, actual:report.result, detected_codes:report.errors.map(error => error.code), pass: outcome && check(messages, report) });
+  }
+  // Dark points semantic.state.hover/pressed at its own primitives; light keeps the seeded 0.04 / 0.11.
+  const darkState = (hover, pressed) => dir => {
+    seed(dir);
+    editTokens(dir, j => { j.primitive.opacity.hoverDark = { $value: hover }; j.primitive.opacity.pressedDark = { $value: pressed }; });
+    const darkFile = path.join(dir,'modes','dark.json'), dark = JSON.parse(fs.readFileSync(darkFile,'utf8'));
+    Object.assign(dark.semantic.state, { hover: { opacity: { $value: '{primitive.opacity.hoverDark}' } }, pressed: { opacity: { $value: '{primitive.opacity.pressedDark}' } } });
+    write(dir,'modes/dark.json',dark);
+  };
+  const stateRows = (report, mode) => report.state_distinct?.[mode] || [];
+  testState('tokens-state-per-mode-opacity', 'PASS', darkState(0.08, 0.16), (_, report) =>
+    stateRows(report,'light').length === 5 && stateRows(report,'light').every(row => row.hover === 0.04 && row.pressed === 0.11 && row.deltaE00 >= 3)
+    && stateRows(report,'dark').length === 5 && stateRows(report,'dark').every(row => row.hover === 0.08 && row.pressed === 0.16 && row.deltaE00 >= 3));
+  // The specimen spec's reference opacities: all five state-layer surfaces fail in both modes.
+  testState('tokens-state-reference-opacity', 'STATE_DISTINCT', dir => fs.cpSync(example, dir, { recursive: true }),
+    messages => messages.length === 10 && ['light', 'dark'].every(mode => messages.some(m => m.startsWith(`${mode}: onAccent state layer on accent:`))));
+  testState('tokens-state-dark-only-indistinct', 'STATE_DISTINCT', darkState(0.08, 0.09), messages => messages.every(m => m.startsWith('dark: ')));
+  // Minimal depth enforces the primary button only; the other surfaces are advisory warnings.
+  testState('tokens-state-minimal-advisory', 'STATE_DISTINCT', dir => { fs.cpSync(example, dir, { recursive: true }); editTokens(dir, j => { delete j.meta.categories; }); },
+    (messages, report) => messages.length === 2 && messages.every(m => m.includes('onAccent state layer on accent:'))
+      && report.warnings.some(w => w.startsWith('advisory (minimal depth): light: text.primary state layer on surface.default')));
   testTokens('tokens-lint-vendor-prefix','NOT_USED', dir => [write(dir,'prefixed.css','.glass{-webkit-backdrop-filter:blur(12px)}\n')], true);
   testTokens('tokens-lint-custom-property','NOT_USED', dir => [write(dir,'custom.css',':root{--hero-bg-2:linear-gradient(90deg,#fff,#000)}\n')], true);
   testTokens('tokens-lint-nested-rule','NOT_USED', dir => [write(dir,'nested.css','.card{background:RADIAL-GRADIENT(#fff,#000);&:hover{color:red}}\n')], true);
